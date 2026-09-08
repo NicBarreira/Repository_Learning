@@ -1,0 +1,17 @@
+{
+  "name": "repository-learning",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node --watch nodejs/app.js",
+    "api": "node nodejs/api.mjs",
+    "check:ts": "tsc typescript/exercicios.ts --noEmit --strict --target ES2022 --module NodeNext --moduleResolution NodeNext --skipLibCheck"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "zod": "^4.1.5"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.2"
+  }
+}

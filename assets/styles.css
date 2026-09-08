@@ -238,6 +238,67 @@ body {
   margin: 0 0 14px;
 }
 
+.challenge-list {
+  display: grid;
+  gap: 8px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.challenge-list li {
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  background: var(--panel);
+}
+
+.challenge-list h4 {
+  margin: 20px 0 8px;
+  color: var(--accent);
+}
+
+.challenge-list h4:first-child {
+  margin-top: 0;
+}
+
+.challenge-item {
+  padding: 0;
+  overflow: hidden;
+}
+
+.challenge-item details {
+  padding: 12px 14px;
+}
+
+.challenge-item summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.challenge-explanation {
+  margin: 12px 0 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.challenge-resolution {
+  margin-top: 14px;
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+}
+
+.challenge-resolution summary {
+  color: var(--accent);
+  font-size: 0.95rem;
+}
+
+.challenge-item pre {
+  margin: 12px -14px -12px;
+  border-top: 1px solid var(--border);
+  font-size: 0.88rem;
+}
+
 .topic h4 {
   margin: 18px 0 10px;
   font-size: 1.2rem;

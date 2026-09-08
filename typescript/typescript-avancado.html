@@ -30,6 +30,7 @@
               <li><a href="#narrowing">Type Narrowing</a></li>
               <li><a href="#conditional">Conditional e infer</a></li>
               <li><a href="#zod">Runtime e Zod</a></li>
+              <li><a href="#desafios">Desafios</a></li>
             </ul>
           </details>
         </nav>
@@ -123,8 +124,14 @@ function validarUsuario(valor: unknown): UsuarioInput {
           <p><code>parse</code> lança erro quando os dados são inválidos; <code>safeParse</code> devolve um resultado que pode ser tratado sem exceção. A validação deve ocorrer antes de dados externos entrarem nas regras de negócio.</p>
           <div class="note"><strong>Regra de segurança:</strong> TypeScript não substitui autenticação, autorização, sanitização, logs ou validação financeira. Tipos e runtime cumprem funções diferentes.</div>
         </section>
+        <section id="desafios" class="topic">
+          <h3>Desafios e resoluções</h3>
+          <h4>Avançado</h4>
+          <ul class="challenge-list" data-desafios="typescript-avancado"></ul>
+        </section>
       </main>
     </div>
+    <script src="../assets/desafios.js"></script>
     <script>
       const temaSalvo = localStorage.getItem("javascript-docs-theme");
       const temaInicial = temaSalvo || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");

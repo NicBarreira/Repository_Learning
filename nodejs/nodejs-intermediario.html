@@ -30,6 +30,7 @@
               <li><a href="#parametros">Parâmetros e middlewares</a></li>
               <li><a href="#seguranca">Ambiente e segurança</a></li>
               <li><a href="#integracoes">APIs e persistência</a></li>
+              <li><a href="#desafios">Desafios</a></li>
             </ul>
           </details>
         </nav>
@@ -111,8 +112,14 @@ async function carregarClima() {
 const contas = JSON.parse(await readFile("./contas.json", "utf8"));
 await writeFile("./backup-contas.json", JSON.stringify(contas, null, 2));</code></pre></div>
         </section>
+        <section id="desafios" class="topic">
+          <h3>Desafios e resoluções</h3>
+          <h4>Intermediário</h4>
+          <ul class="challenge-list" data-desafios="nodejs-intermediario"></ul>
+        </section>
       </main>
     </div>
+    <script src="../assets/desafios.js"></script>
     <script src="nodejs-theme.js"></script>
   </body>
 </html>

@@ -29,6 +29,7 @@
               <li><a href="#compilador">Compilador e tsconfig</a></li>
               <li><a href="#tipos">Tipos e inferência</a></li>
               <li><a href="#especiais">Tipos especiais</a></li>
+              <li><a href="#desafios">Desafios</a></li>
             </ul>
           </details>
         </nav>
@@ -98,8 +99,14 @@ function falhar(mensagem: string): never {
 }</code></pre></div>
           <p>Em aplicações profissionais, prefira <code>unknown</code> para respostas de API, arquivos e valores recebidos do usuário. A validação de runtime será estudada no nível avançado.</p>
         </section>
+        <section id="desafios" class="topic">
+          <h3>Desafios e resoluções</h3>
+          <h4>Iniciante</h4>
+          <ul class="challenge-list" data-desafios="typescript-iniciante"></ul>
+        </section>
       </main>
     </div>
+    <script src="../assets/desafios.js"></script>
     <script>
       const temaSalvo = localStorage.getItem("javascript-docs-theme");
       const temaInicial = temaSalvo || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
