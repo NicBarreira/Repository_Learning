@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Git e GitHub — Do zero ao avançado</title>
+    <link rel="stylesheet" href="../assets/styles.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="brand-box">
+          <p class="eyebrow">Módulo 4 · Git e GitHub</p>
+          <h1>Versionamento</h1>
+          <a class="back-link" href="../index.html">← Voltar à página inicial</a>
+          <button class="theme-toggle" type="button" id="theme-toggle" aria-label="Ativar tema escuro">Tema escuro</button>
+        </div>
+        <nav class="nav" aria-label="Índice do guia de Git e GitHub">
+          <h2>Trilha Git</h2>
+          <ul>
+            <li><a href="#visao-geral">Visão geral</a></li>
+            <li><a href="#basico">Nível básico</a></li>
+            <li><a href="#intermediario">Nível intermediário</a></li>
+            <li><a href="#avancado">Nível avançado</a></li>
+          </ul>
+          <details class="nav-dropdown">
+            <summary>Conteúdos do guia</summary>
+            <ul>
+              <li><a href="#areas">As 3 áreas locais</a></li>
+              <li><a href="#gitignore">.gitignore</a></li>
+              <li><a href="#branches">Branches</a></li>
+              <li><a href="#pull-requests">Pull Requests</a></li>
+              <li><a href="#historico">Histórico avançado</a></li>
+              <li><a href="#automacao">Hooks e Actions</a></li>
+            </ul>
+          </details>
+        </nav>
+      </aside>
+
+      <main class="content">
+        <header class="hero" id="visao-geral">
+          <p class="eyebrow">Trilha Git e GitHub</p>
+          <h2>Guia Definitivo: Git e GitHub para Desenvolvedores</h2>
+          <p>Do zero ao avançado: versionamento local, colaboração em equipe, engenharia de histórico e automação.</p>
+          <div class="note"><strong>Git vs. GitHub:</strong> Git é o programa instalado no computador que registra versões do projeto. GitHub é a plataforma na nuvem onde essas versões podem ser armazenadas e compartilhadas.</div>
+        </header>
+
+        <section id="basico" class="topic">
+          <h3>1. Nível básico: o fluxo local e o primeiro repositório</h3>
+          <p>O nível iniciante ensina a versionar projetos pessoais sem enviar arquivos desnecessários, criar repositórios e usar o terminal com segurança.</p>
+          <h4 id="areas">As 3 áreas do Git local</h4>
+          <ol>
+            <li><strong>Working Directory:</strong> a pasta do projeto, onde os arquivos são criados e alterados.</li>
+            <li><strong>Staging Area (Index):</strong> a área de preparação, onde você seleciona o que entrará no próximo commit.</li>
+            <li><strong>Local Repository:</strong> o histórico local, onde as versões são salvas com <code>git commit</code>.</li>
+          </ol>
+          <div class="code-block"><pre><code>[ Working Directory ] ── git add ──► [ Staging Area ] ── git commit ──► [ Local Repository ]</code></pre></div>
+          <h4>Comandos essenciais</h4>
+          <div class="code-block"><pre><code>git init                         # inicializa o repositório
+git status                      # mostra o estado dos arquivos
+git add .                       # prepara as alterações
+git commit -m "feat: primeira versão"
+git log                         # exibe o histórico
+git remote add origin URL       # conecta ao GitHub
+git push -u origin main         # envia a branch principal</code></pre></div>
+          <h4 id="gitignore">A regra de ouro do <code>.gitignore</code></h4>
+          <p>Em projetos Node.js e TypeScript, não envie <code>node_modules/</code>, <code>dist/</code> nem <code>.env</code>. Dependências podem ser recriadas com <code>npm install</code>, arquivos compilados são gerados pelo build e segredos nunca devem entrar no histórico.</p>
+          <div class="code-block"><pre><code>node_modules/
+dist/
+.env</code></pre></div>
+          <div class="note"><strong>Atenção:</strong> se uma pasta já foi rastreada, adicioná-la ao <code>.gitignore</code> não basta. Remova-a do índice com <code>git rm -r --cached nome-da-pasta</code>.</div>
+        </section>
+
+        <section id="intermediario" class="topic">
+          <h3>2. Nível intermediário: colaboração, branches e Pull Requests</h3>
+          <p>Em equipes, cada funcionalidade deve ser desenvolvida em uma branch isolada. Assim, ninguém precisa commitar diretamente na <code>main</code>.</p>
+          <h4 id="branches">Branches (ramificações)</h4>
+          <div class="code-block"><pre><code>git branch nome-da-branch
+git switch -c feature/login       # cria e troca para a branch
+git push -u origin feature/login  # publica a branch
+git switch main
+git merge feature/login           # integra a funcionalidade</code></pre></div>
+          <p>Branches permitem testar e revisar uma mudança antes de integrá-la ao código principal.</p>
+          <h4>Conflitos de merge</h4>
+          <p>Um conflito acontece quando branches alteram a mesma linha. O Git pausa a operação e marca o arquivo com <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code>, <code>=======</code> e <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>. Edite o arquivo escolhendo a versão correta, remova os marcadores e finalize:</p>
+          <div class="code-block"><pre><code>git add arquivo-resolvido.js
+git commit -m "fix: resolve conflito de integração"</code></pre></div>
+          <h4 id="pull-requests">Pull Requests e revisão no GitHub</h4>
+          <ol>
+            <li>Envie sua branch com <code>git push origin feature/login</code>.</li>
+            <li>Abra um Pull Request no GitHub para a <code>main</code>.</li>
+            <li>Receba comentários, faça ajustes e aguarde a aprovação.</li>
+            <li>Faça o merge somente depois da revisão e das verificações automáticas.</li>
+          </ol>
+          <h4>Commits semânticos</h4>
+          <ul>
+            <li><code>feat:</code> nova funcionalidade.</li>
+            <li><code>fix:</code> correção de bug.</li>
+            <li><code>refactor:</code> melhoria estrutural sem mudar o comportamento.</li>
+            <li><code>docs:</code> alteração exclusivamente documental.</li>
+          </ul>
+        </section>
+
+        <section id="avancado" class="topic">
+          <h3>3. Nível avançado: histórico e automação</h3>
+          <p>O nível avançado ensina a limpar históricos, transportar commits específicos, recuperar alterações e automatizar a qualidade do projeto.</p>
+          <h4 id="historico"><code>merge</code> versus <code>rebase</code></h4>
+          <p><code>merge</code> preserva os históricos paralelos e cria um commit de integração. <code>rebase</code> reaplica seus commits sobre a branch mais atualizada, produzindo um histórico linear. Não faça rebase de commits públicos que outras pessoas já usam.</p>
+          <div class="code-block"><pre><code>git switch feature/login
+git fetch origin
+git rebase origin/main
+git rebase -i HEAD~3              # reorganiza os 3 últimos commits</code></pre></div>
+          <h4>Ferramentas de emergência</h4>
+          <ul>
+            <li><code>git stash</code> guarda alterações temporariamente; <code>git stash pop</code> recupera-as.</li>
+            <li><code>git cherry-pick HASH</code> copia um commit específico para a branch atual.</li>
+            <li><code>git reflog</code> registra movimentos do <code>HEAD</code> e ajuda a recuperar commits ou branches.</li>
+          </ul>
+          <h4 id="automacao">Hooks e GitHub Actions</h4>
+          <p>Hooks, com ferramentas como Husky, executam verificações locais antes de um commit, como ESLint, Prettier e <code>tsc --noEmit</code>. GitHub Actions executa CI/CD na nuvem, por exemplo rodando testes unitários e validando a compilação em cada Pull Request.</p>
+          <div class="code-block"><pre><code># Exemplo de verificação local
+npm run lint
+npm test
+npx tsc --noEmit</code></pre></div>
+          <div class="note"><strong>Objetivo profissional:</strong> um histórico rastreável, branches pequenas, Pull Requests revisados e uma pipeline que impeça código quebrado de chegar à produção.</div>
+        </section>
+      </main>
+    </div>
+    <script>
+      const temaSalvo = localStorage.getItem("javascript-docs-theme");
+      const temaInicial = temaSalvo || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      const botaoTema = document.querySelector("#theme-toggle");
+
+      function atualizarTema(tema) {
+        document.documentElement.dataset.theme = tema;
+        const escuro = tema === "dark";
+        botaoTema.textContent = escuro ? "Tema claro" : "Tema escuro";
+        botaoTema.setAttribute("aria-label", escuro ? "Ativar tema claro" : "Ativar tema escuro");
+      }
+
+      atualizarTema(temaInicial);
+      botaoTema.addEventListener("click", () => {
+        const novoTema = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+        localStorage.setItem("javascript-docs-theme", novoTema);
+        atualizarTema(novoTema);
+      });
+    </script>
+  </body>
+</html>
