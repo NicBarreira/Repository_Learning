@@ -1,0 +1,91 @@
+URL: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments/length
+TITULO: length
+
+arguments.length
+Baseline
+Widely available
+This feature is well established and works across many devices and browser versions. Itâs been available across browsers since July 2015.
+See full compatibility
+Learn more
+The
+arguments.length
+data property contains the number of arguments passed to the function.
+In this article
+Value
+Description
+Examples
+Specifications
+Browser compatibility
+See also
+Value
+A non-negative integer.
+Property attributes of
+arguments.length
+Writable
+yes
+Enumerable
+no
+Configurable
+yes
+Description
+The
+arguments.length
+property provides the number of arguments actually passed to a function. This can be more or less than the defined parameter's count (see
+Function.prototype.length
+). For example, for the function below:
+js
+function func1(a, b, c) {
+  console.log(arguments.length);
+}
+func1.length
+returns
+3
+, because
+func1
+declares three formal parameters. However,
+func1(1, 2, 3, 4, 5)
+logs
+5
+, because
+func1
+was called with five arguments. Similarly,
+func1(1)
+logs
+1
+, because
+func1
+was called with one argument.
+Examples
+Using arguments.length
+In this example, we define a function that can add two or more numbers together.
+js
+function adder(base /*, num1, â¦, numN */) {
+  base = Number(base);
+  for (let i = 1; i < arguments.length; i++) {
+    base += Number(arguments[i]);
+  }
+  return base;
+}
+Specifications
+Specification
+ECMAScriptÂ® 2027 LanguageÂ Specification
+# sec-arguments-exotic-objects
+Browser compatibility
+See also
+Functions
+guide
+Functions
+arguments
+Function
+:
+length
+Help improve MDN
+Learn how to contribute
+This page was last modified on
+Jul 8, 2025
+by
+MDN contributors
+.
+View this page on GitHub
+â¢
+Report a problem with this content

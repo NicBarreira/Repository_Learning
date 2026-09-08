@@ -1,0 +1,71 @@
+URL: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Duplicate_parameter
+TITULO: SyntaxError: duplicate formal argument x
+
+SyntaxError: duplicate formal argument x
+The JavaScript exception "duplicate formal argument x" or "duplicate argument names not allowed in this context" occurs when a function creates two or more parameter
+bindings
+with the same name, and the function is not a
+non-strict
+function with only simple parameters.
+In this article
+Message
+Error type
+What went wrong?
+Examples
+See also
+Message
+SyntaxError: Duplicate parameter name not allowed in this context (V8-based)
+SyntaxError: duplicate formal argument x (Firefox)
+SyntaxError: duplicate argument names not allowed in this context (Firefox)
+SyntaxError: Cannot declare a parameter named 'x' in strict mode as it has already been declared. (Safari)
+SyntaxError: Duplicate parameter 'x' not allowed in function with default parameter values. (Safari)
+SyntaxError: Duplicate parameter 'x' not allowed in function with a rest parameter. (Safari)
+SyntaxError: Duplicate parameter 'x' not allowed in function with destructuring parameters. (Safari)
+Error type
+SyntaxError
+What went wrong?
+Having two formal parameters of the same name is likely a mistakeâthe second occurrence would cause the first occurrence to be inaccessible through the parameter name. In legacy JavaScript, this was allowed. Therefore, to not break existing code, this is only an error if the code is guaranteed to not be legacyâeither because it is in
+strict mode
+or it uses modern parameter syntax (
+rest
+,
+default
+, or
+destructured
+parameters).
+Examples
+Invalid cases
+js
+"use strict";
+
+function add(x, x) {
+  // How can you access both "x" parameters?
+  // SyntaxError: duplicate formal argument x
+}
+js
+function doSomething(name, { name }) {
+  // How can you access both "name" parameters?
+  // SyntaxError: duplicate argument names not allowed in this context
+}
+Valid cases
+js
+function doSomething(operationName, { name: userName }) {
+  // You can access both "operationName" and "userName" parameters.
+}
+
+function doSomething(name, user) {
+  // You can access both "name" and "user.name" parameters.
+}
+See also
+Functions
+Strict mode
+Help improve MDN
+Learn how to contribute
+This page was last modified on
+Jul 8, 2025
+by
+MDN contributors
+.
+View this page on GitHub
+â¢
+Report a problem with this content

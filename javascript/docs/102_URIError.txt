@@ -1,0 +1,108 @@
+URL: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/URIError
+TITULO: URIError
+
+URIError
+Baseline
+Widely available
+*
+This feature is well established and works across many devices and browser versions. Itâs been available across browsers since July 2015.
+* Some parts of this feature may have varying levels of support.
+See full compatibility
+Learn more
+The
+URIError
+object represents an error when a global URI handling function was used in a wrong way.
+URIError
+is a
+serializable object
+, so it can be cloned with
+structuredClone()
+or copied between
+Workers
+using
+postMessage()
+.
+URIError
+is a subclass of
+Error
+.
+In this article
+Constructor
+Instance properties
+Instance methods
+Examples
+Specifications
+Browser compatibility
+See also
+Constructor
+URIError()
+Creates a new
+URIError
+object.
+Instance properties
+Also inherits instance properties from its parent
+Error
+.
+These properties are defined on
+URIError.prototype
+and shared by all
+URIError
+instances.
+URIError.prototype.constructor
+The constructor function that created the instance object. For
+URIError
+instances, the initial value is the
+URIError
+constructor.
+URIError.prototype.name
+Represents the name for the type of error. For
+URIError.prototype.name
+, the initial value is
+"URIError"
+.
+Instance methods
+Inherits instance methods from its parent
+Error
+.
+Examples
+Catching a URIError
+js
+try {
+  decodeURIComponent("%");
+} catch (e) {
+  console.log(e instanceof URIError); // true
+  console.log(e.message); // "malformed URI sequence"
+  console.log(e.name); // "URIError"
+  console.log(e.stack); // Stack of the error
+}
+Creating a URIError
+js
+try {
+  throw new URIError("Hello");
+} catch (e) {
+  console.log(e instanceof URIError); // true
+  console.log(e.message); // "Hello"
+  console.log(e.name); // "URIError"
+  console.log(e.stack); // Stack of the error
+}
+Specifications
+Specification
+ECMAScriptÂ® 2027 LanguageÂ Specification
+# sec-native-error-types-used-in-this-standard-urierror
+Browser compatibility
+See also
+Error
+decodeURI()
+decodeURIComponent()
+encodeURI()
+encodeURIComponent()
+Help improve MDN
+Learn how to contribute
+This page was last modified on
+Oct 30, 2025
+by
+MDN contributors
+.
+View this page on GitHub
+â¢
+Report a problem with this content

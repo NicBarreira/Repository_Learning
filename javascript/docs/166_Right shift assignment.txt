@@ -1,0 +1,77 @@
+URL: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Right_shift_assignment
+TITULO: Right shift assignment (>>=)
+
+Right shift assignment (>>=)
+Baseline
+Widely available
+This feature is well established and works across many devices and browser versions. Itâs been available across browsers since July 2015.
+See full compatibility
+Learn more
+The
+right shift assignment (
+>>=
+)
+operator performs
+right shift
+on the two operands and assigns the result to the left operand.
+In this article
+Try it
+Syntax
+Description
+Examples
+Specifications
+Browser compatibility
+See also
+Try it
+let a = 5; //  00000000000000000000000000000101
+
+a >>= 2; //  00000000000000000000000000000001
+console.log(a);
+// Expected output: 1
+
+let b = -5; //  11111111111111111111111111111011
+
+b >>= 2; //  11111111111111111111111111111110
+console.log(b);
+// Expected output: -2
+Syntax
+js
+x >>= y
+Description
+x >>= y
+is equivalent to
+x = x >> y
+, except that the expression
+x
+is only evaluated once.
+Examples
+Using right shift assignment
+js
+let a = 5; //   (00000000000000000000000000000101)
+a >>= 2; //   1 (00000000000000000000000000000001)
+
+let b = -5; //  (-00000000000000000000000000000101)
+b >>= 2; //  -2 (-00000000000000000000000000000010)
+
+let c = 5n;
+c >>= 2n; // 1n
+Specifications
+Specification
+ECMAScriptÂ® 2027 LanguageÂ Specification
+# sec-assignment-operators
+Browser compatibility
+See also
+Assignment operators in the JS guide
+Right shift (
+>>
+)
+Help improve MDN
+Learn how to contribute
+This page was last modified on
+Jul 8, 2025
+by
+MDN contributors
+.
+View this page on GitHub
+â¢
+Report a problem with this content

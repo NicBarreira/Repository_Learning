@@ -1,0 +1,276 @@
+URL: https://nodejs.org/learn/manipulating-files/nodejs-file-stats
+TITULO: Node.js file stats
+
+Node.js file stats
+Every file comes with a set of details that we can inspect using Node.js. In particular, using the
+stat()
+method provided by the
+fs
+module
+.
+You call it passing a file path, and once Node.js gets the file details it will call the callback function you pass, with 2 parameters: an error message, and the file stats:
+CJS
+ESM
+const
+fs
+=
+require
+(
+'
+node:fs
+'
+)
+;
+fs
+.
+stat
+(
+'
+/Users/joe/test.txt
+'
+,
+(
+err
+,
+stats
+)
+=>
+{
+if
+(
+err
+)
+{
+console
+.
+error
+(
+err
+)
+;
+}
+// we have access to the file stats in `stats`
+}
+)
+;
+JavaScript
+Copy to clipboard
+Node.js also provides a sync method, which blocks the thread until the file stats are ready:
+CJS
+ESM
+const
+fs
+=
+require
+(
+'
+node:fs
+'
+)
+;
+try
+{
+const
+stats
+=
+fs
+.
+statSync
+(
+'
+/Users/joe/test.txt
+'
+)
+;
+}
+catch
+(
+err
+)
+{
+console
+.
+error
+(
+err
+)
+;
+}
+JavaScript
+Copy to clipboard
+The file information is included in the stats variable. What kind of information can we extract using the stats?
+A lot, including:
+if the file is a directory or a file, using
+stats.isFile()
+and
+stats.isDirectory()
+if the file is a symbolic link using
+stats.isSymbolicLink()
+the file size in bytes using
+stats.size
+.
+There are other advanced methods, but the bulk of what you'll use in your day-to-day programming is this.
+CJS
+ESM
+const
+fs
+=
+require
+(
+'
+node:fs
+'
+)
+;
+fs
+.
+stat
+(
+'
+/Users/joe/test.txt
+'
+,
+(
+err
+,
+stats
+)
+=>
+{
+if
+(
+err
+)
+{
+console
+.
+error
+(
+err
+)
+;
+return;
+}
+stats
+.
+isFile
+()
+;
+// true
+stats
+.
+isDirectory
+()
+;
+// false
+stats
+.
+isSymbolicLink
+()
+;
+// false
+console
+.
+log
+(
+stats
+.
+size
+)
+;
+// 1024000 //= 1MB
+}
+)
+;
+JavaScript
+Copy to clipboard
+You can also use promise-based
+fsPromises.stat()
+method offered by the
+fs/promises
+module if you like:
+CJS
+ESM
+const
+fs
+=
+require
+(
+'
+node:fs/promises
+'
+)
+;
+async
+function
+example
+()
+{
+try
+{
+const
+stats
+=
+await
+fs
+.
+stat
+(
+'
+/Users/joe/test.txt
+'
+)
+;
+stats
+.
+isFile
+()
+;
+// true
+stats
+.
+isDirectory
+()
+;
+// false
+stats
+.
+isSymbolicLink
+()
+;
+// false
+console
+.
+log
+(
+stats
+.
+size
+)
+;
+// 1024000 //= 1MB
+}
+catch
+(
+err
+)
+{
+console
+.
+log
+(
+err
+)
+;
+}
+}
+example
+()
+;
+JavaScript
+Copy to clipboard
+You can read more about the
+fs
+module in the
+official documentation
+.

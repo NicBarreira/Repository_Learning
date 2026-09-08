@@ -1,0 +1,54 @@
+URL: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Parameter_after_rest_parameter
+TITULO: SyntaxError: parameter after rest parameter
+
+SyntaxError: parameter after rest parameter
+The JavaScript exception "parameter after rest parameter" occurs when a
+rest parameter
+is followed by anything else in a parameter list, including another rest parameter, a formal parameter, or a
+trailing comma
+.
+In this article
+Message
+Error type
+What went wrong?
+Examples
+See also
+Message
+SyntaxError: Rest parameter must be last formal parameter (V8-based)
+SyntaxError: parameter after rest parameter (Firefox)
+SyntaxError: Unexpected token ','. Rest parameter should be the last parameter in a function declaration. (Safari)
+Error type
+SyntaxError
+What went wrong?
+A rest parameter must be the last parameter in a function definition. This is because the rest parameter collects all the remaining arguments passed to the function, so it doesn't make sense to have any parameters after it. The next non-whitespace character must be the closing parenthesis of the parameter list.
+Examples
+Invalid cases
+js
+function replacer(match, ...groups, offset, string) {}
+
+function doSomething(
+  arg1,
+  arg2,
+  ...otherArgs, // Accidental trailing comma
+) {}
+Valid cases
+js
+function replacer(match, ...args) {
+  const offset = args.at(-2);
+  const string = args.at(-1);
+}
+
+function doSomething(arg1, arg2, ...otherArgs) {}
+See also
+Functions
+Rest parameters
+Help improve MDN
+Learn how to contribute
+This page was last modified on
+Jul 8, 2025
+by
+MDN contributors
+.
+View this page on GitHub
+â¢
+Report a problem with this content

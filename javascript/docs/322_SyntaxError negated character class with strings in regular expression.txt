@@ -1,0 +1,65 @@
+URL: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Regex_negated_char_class_with_strings
+TITULO: SyntaxError: negated character class with strings in regular expression
+
+SyntaxError: negated character class with strings in regular expression
+The JavaScript exception "negated character class with strings in regular expression" occurs when a
+v
+-mode character class
+is negated and may be able to match a string (more than one character).
+In this article
+Message
+Error type
+What went wrong?
+Examples
+See also
+Message
+SyntaxError: Invalid regular expression: /[^\p{RGI_Emoji_Flag_Sequence}]/v: Negated character class may contain strings (V8-based)
+SyntaxError: negated character class with strings in regular expression (Firefox)
+SyntaxError: Invalid regular expression: negated class set may contain strings (Safari)
+Error type
+SyntaxError
+What went wrong?
+In
+v
+mode, character classes are able to match more than 1 character. For example,
+/[\q{abc}]/v
+would match the sequence
+"abc"
+, and
+/[\p{RGI_Emoji_Flag_Sequence}]/v
+would match any character sequence that represents an emoji flag. However, negated character classes
+[^...]
+are not allowed to match strings, so
+/[^\p{RGI_Emoji_Flag_Sequence}]/v
+is invalid, because it's unclear how many characters it should match. For more information, see the
+v
+-mode character class
+reference.
+Examples
+Invalid cases
+js
+/[^\p{RGI_Emoji_Flag_Sequence}]/v;
+Valid cases
+js
+// Matches two characters that are not an emoji flag sequence
+/(?!\p{RGI_Emoji_Flag_Sequence})../v;
+See also
+Regular expressions
+Character class:
+[...]
+,
+[^...]
+Unicode character class escape:
+\p{...}
+,
+\P{...}
+Help improve MDN
+Learn how to contribute
+This page was last modified on
+Jul 8, 2025
+by
+MDN contributors
+.
+View this page on GitHub
+â¢
+Report a problem with this content

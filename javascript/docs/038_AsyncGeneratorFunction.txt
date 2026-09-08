@@ -1,0 +1,133 @@
+URL: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/AsyncGeneratorFunction
+TITULO: AsyncGeneratorFunction
+
+AsyncGeneratorFunction
+Baseline
+Widely available
+This feature is well established and works across many devices and browser versions. Itâs been available across browsers since January 2020.
+See full compatibility
+Learn more
+The
+AsyncGeneratorFunction
+object provides methods for
+async generator functions
+. In JavaScript, every async generator function is actually an
+AsyncGeneratorFunction
+object.
+Note that
+AsyncGeneratorFunction
+is
+not
+a global object. It can be obtained with the following code:
+js
+const AsyncGeneratorFunction = async function* () {}.constructor;
+AsyncGeneratorFunction
+is a subclass of
+Function
+.
+In this article
+Try it
+Constructor
+Instance properties
+Instance methods
+Specifications
+Browser compatibility
+See also
+Try it
+const AsyncGeneratorFunction = async function* () {}.constructor;
+
+const foo = new AsyncGeneratorFunction(`
+  yield await Promise.resolve('a');
+  yield await Promise.resolve('b');
+  yield await Promise.resolve('c');
+`);
+
+let str = "";
+
+async function generate() {
+  for await (const val of foo()) {
+    str += val;
+  }
+  console.log(str);
+}
+
+generate();
+// Expected output: "abc"
+Constructor
+AsyncGeneratorFunction()
+Creates a new
+AsyncGeneratorFunction
+object.
+Instance properties
+Also inherits instance properties from its parent
+Function
+.
+These properties are defined on
+AsyncGeneratorFunction.prototype
+and shared by all
+AsyncGeneratorFunction
+instances.
+AsyncGeneratorFunction.prototype.constructor
+The constructor function that created the instance object. For
+AsyncGeneratorFunction
+instances, the initial value is the
+AsyncGeneratorFunction
+constructor.
+AsyncGeneratorFunction.prototype.prototype
+All async generator functions share the same
+prototype
+property, which is
+AsyncGenerator.prototype
+. Each async generator function created with the
+async function*
+syntax or the
+AsyncGeneratorFunction()
+constructor also has its own
+prototype
+property, whose prototype is
+AsyncGeneratorFunction.prototype.prototype
+. When the async generator function is called, its
+prototype
+property becomes the prototype of the returned async generator object.
+AsyncGeneratorFunction.prototype[Symbol.toStringTag]
+The initial value of the
+[Symbol.toStringTag]
+property is the string
+"AsyncGeneratorFunction"
+. This property is used in
+Object.prototype.toString()
+.
+These properties are own properties of each
+AsyncGeneratorFunction
+instance.
+prototype
+Used when the function is used as a constructor with the
+new
+operator. It will become the new object's prototype.
+Instance methods
+Inherits instance methods from its parent
+Function
+.
+Specifications
+Specification
+ECMAScriptÂ® 2027 LanguageÂ Specification
+# sec-asyncgeneratorfunction-objects
+Browser compatibility
+See also
+async function*
+async function*
+expression
+Function
+AsyncFunction
+GeneratorFunction
+Functions
+Help improve MDN
+Learn how to contribute
+This page was last modified on
+Jul 10, 2025
+by
+MDN contributors
+.
+View this page on GitHub
+â¢
+Report a problem with this content

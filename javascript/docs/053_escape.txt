@@ -1,0 +1,103 @@
+URL: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/escape
+TITULO: escape()
+
+escape()
+Deprecated
+Avoid using this feature in new projects.
+TC39 included the
+escape()
+and
+unescape()
+methods in Annex B of the ECMAScript specification, which covers JavaScript features with "one or more undesirable characteristics and in the absence of legacy usage would be removed."
+This feature may be a candidate for removal from web standards or browsers.
+See full compatibility
+Learn more
+Note:
+escape()
+is a non-standard function implemented by browsers and was only standardized for cross-engine compatibility. It is not required to be implemented by all JavaScript engines and may not work everywhere. Use
+encodeURIComponent()
+or
+encodeURI()
+if possible.
+The
+escape()
+function computes a new string in which certain characters have been replaced by hexadecimal escape sequences.
+In this article
+Syntax
+Description
+Examples
+Specifications
+Browser compatibility
+See also
+Syntax
+js
+escape(str)
+Parameters
+str
+A string to be encoded.
+Return value
+A new string in which certain characters have been escaped.
+Description
+escape()
+is a function property of the global object.
+The
+escape()
+function replaces all characters with escape sequences, with the exception of
+ASCII
+word characters (AâZ, aâz, 0â9, _) and
+@\*_+-./
+. Characters are escaped by UTF-16 code units. If the code unit's value is less than 256, it is represented by a two-digit hexadecimal number in the format
+%XX
+, left-padded with 0 if necessary. Otherwise, it is represented by a four-digit hexadecimal number in the format
+%uXXXX
+, left-padded with 0 if necessary.
+Note:
+This function was used mostly for
+percent-encoding
+and is partly based on the escape format in
+RFC 1738
+. The escape format is
+not
+an
+escape sequence
+in string literals. You can replace
+%XX
+with
+\xXX
+and
+%uXXXX
+with
+\uXXXX
+to get a string containing actual string-literal escape sequences.
+Examples
+Using escape()
+js
+escape("abc123"); // "abc123"
+escape("Ã¤Ã¶Ã¼"); // "%E4%F6%FC"
+escape("Ä"); // "%u0107"
+
+// special characters
+escape("@*_+-./"); // "@*_+-./"
+Specifications
+Specification
+ECMAScriptÂ® 2027 LanguageÂ Specification
+# sec-escape-string
+Browser compatibility
+See also
+Polyfill of
+escape
+in
+core-js
+encodeURI
+encodeURIComponent
+unescape
+Help improve MDN
+Learn how to contribute
+This page was last modified on
+Aug 21, 2026
+by
+MDN contributors
+.
+View this page on GitHub
+â¢
+Report a problem with this content

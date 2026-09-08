@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Node.js — Intermediário</title>
+    <link rel="stylesheet" href="../assets/styles.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="brand-box">
+          <p class="eyebrow">Módulo 3 · Nível 2</p>
+          <h1>Node.js</h1>
+          <a class="back-link" href="../index.html">← Voltar à página inicial</a>
+          <button class="theme-toggle" type="button" id="theme-toggle" aria-label="Ativar tema escuro">Tema escuro</button>
+        </div>
+        <nav class="nav" aria-label="Índice do Node.js intermediário">
+          <h2>Trilha Node.js</h2>
+          <ul>
+            <li><a href="nodejs-iniciante.html">Iniciante</a></li>
+            <li><a href="nodejs-intermediario.html">Intermediário</a></li>
+            <li><a href="nodejs-avancado.html">Avançado</a></li>
+          </ul>
+          <details class="nav-dropdown">
+            <summary>Conteúdos do intermediário</summary>
+            <ul>
+              <li><a href="#visao">Visão geral</a></li>
+              <li><a href="#express">Express e rotas</a></li>
+              <li><a href="#parametros">Parâmetros e middlewares</a></li>
+              <li><a href="#seguranca">Ambiente e segurança</a></li>
+              <li><a href="#integracoes">APIs e persistência</a></li>
+            </ul>
+          </details>
+        </nav>
+      </aside>
+      <main class="content">
+        <header class="hero">
+          <p class="eyebrow">Trilha Node.js</p>
+          <h2>Nível Intermediário: APIs REST e Regras de Negócio</h2>
+          <p>Servidores funcionais, rotas, middlewares, integrações externas e configurações seguras.</p>
+        </header>
+
+        <section id="visao" class="topic">
+          <h3>O que muda no nível intermediário?</h3>
+          <p>Depois de dominar scripts e módulos, o foco passa a ser construir APIs que recebem requisições, validam dados, executam regras de negócio e respondem com status HTTP apropriados.</p>
+        </section>
+
+        <section id="express" class="topic">
+          <h3>1. Servidores HTTP com Express</h3>
+          <p>O módulo <code>node:http</code> é suficiente, mas o Express reduz código repetitivo e organiza rotas e middlewares.</p>
+          <div class="code-block"><pre><code>import express from "express";
+
+const app = express();
+app.use(express.json());
+
+app.get("/usuarios", (req, res) =&gt; {
+  res.status(200).json([{ id: 1, nome: "Nicolas" }]);
+});
+
+app.post("/usuarios", (req, res) =&gt; {
+  res.status(201).json({ mensagem: "Usuário criado", dados: req.body });
+});
+
+app.listen(3000, () =&gt; console.log("API em http://localhost:3000"));</code></pre></div>
+          <p>Use <code>200</code> para sucesso de leitura, <code>201</code> para criação, <code>400</code> para entrada inválida, <code>404</code> para recurso inexistente e <code>500</code> para falhas inesperadas.</p>
+        </section>
+
+        <section id="parametros" class="topic">
+          <h3>2. Parâmetros e middlewares</h3>
+          <p><code>req.params</code> lê valores da rota, <code>req.query</code> lê filtros após <code>?</code> e <code>req.body</code> contém o JSON enviado pelo cliente.</p>
+          <div class="code-block"><pre><code>app.get("/usuarios/:id", (req, res) =&gt; {
+  const id = Number(req.params.id);
+  const termo = req.query.termo ?? "";
+
+  res.json({ id, termo });
+});</code></pre></div>
+          <p>Middlewares interceptam a requisição antes da rota final. <code>express.json()</code>, por exemplo, converte o corpo bruto em um objeto JavaScript.</p>
+        </section>
+
+        <section id="seguranca" class="topic">
+          <h3>3. Variáveis de ambiente e segurança</h3>
+          <p>Portas, senhas e chaves secretas não devem ficar no código. Use <code>.env</code>, mantenha-o no <code>.gitignore</code> e carregue-o no Node moderno com <code>--env-file</code>.</p>
+          <div class="code-block"><pre><code># .env
+PORT=3000
+
+# terminal
+node --env-file=.env src/server.js
+
+// server.js
+const porta = Number(process.env.PORT ?? 3000);
+console.log(`API usando a porta ${porta}`);</code></pre></div>
+        </section>
+
+        <section id="integracoes" class="topic">
+          <h3>4. APIs externas e persistência básica</h3>
+          <p>Use <code>fetch</code> para parceiros externos e <code>node:fs/promises</code> para arquivos JSON locais. Toda operação externa deve tratar falhas.</p>
+          <div class="code-block"><pre><code>import { readFile, writeFile } from "node:fs/promises";
+
+async function carregarClima() {
+  try {
+    const resposta = await fetch("https://api.exemplo.com/clima");
+    if (!resposta.ok) throw new Error(`HTTP ${resposta.status}`);
+    return await resposta.json();
+  } catch (erro) {
+    console.error("Falha na API externa:", erro.message);
+    throw erro;
+  }
+}
+
+const contas = JSON.parse(await readFile("./contas.json", "utf8"));
+await writeFile("./backup-contas.json", JSON.stringify(contas, null, 2));</code></pre></div>
+        </section>
+      </main>
+    </div>
+    <script src="nodejs-theme.js"></script>
+  </body>
+</html>

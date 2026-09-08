@@ -1,0 +1,1086 @@
+URL: https://www.typescriptlang.org/pt/docs/handbook/utility-types.html
+TITULO: Tipos Utilitários
+
+TypeScript provém vários tipos utilitários para facilitar transformações de tipo comum. Esses utilitários estão disponíveis globalmente.
+Partial<Type>
+Constrói um tipo com todas as propriedades de
+Type
+definidas como opcionais. Esse utilitário irá retornar um tipo que representa todos os subconjuntos de um determinado tipo.
+Exemplo
+ts
+interface
+Todo
+{
+titulo
+:
+string
+;
+descricao
+:
+string
+;
+}
+function
+atualizaTodo
+(
+todo
+:
+Todo
+,
+camposParaAtualizar
+:
+Partial
+<
+Todo
+>) {
+return
+{ ...
+todo
+, ...
+camposParaAtualizar
+};
+}
+const
+todo1
+= {
+titulo
+:
+"organizar a mesa"
+,
+descricao
+:
+"limpar bagunça"
+,
+};
+const
+todo2
+=
+atualizaTodo
+(
+todo1
+, {
+descricao
+:
+"tirar o lixo"
+,
+});
+Try
+Readonly<Type>
+Constrói um tipo com todas as propriedades de
+Type
+definidas como
+readonly
+, significando que as propriedades do tipo construído não podem ser reatribuídas.
+Exemplo
+ts
+interface
+Todo
+{
+titulo
+:
+string
+;
+}
+const
+todo
+:
+Readonly
+<
+Todo
+> = {
+titulo
+:
+"Deleta usuários inativos"
+,
+};
+todo
+.
+titulo
+=
+"Olá"
+;
+Cannot assign to 'titulo' because it is a read-only property.
+2540
+Cannot assign to 'titulo' because it is a read-only property.
+Try
+Esse utilitário é útil para representar expressões de atribuição que irão falhar em tempo de execução (Ex. Ao tentar reatribuir propriedades de um
+objeto congelado
+).
+Object.freeze
+ts
+function
+freeze
+<
+Type
+>(
+obj
+:
+Type
+):
+Readonly
+<
+Type
+>;
+Record<Keys,Type>
+Constrói um tipo com um conjunto de propriedades
+Keys
+do tipo
+Type
+. Esse utilitário pode ser usado para mapear as propriedades de um tipo para outro tipo.
+Exemplo
+ts
+interface
+InfoPagina
+{
+titulo
+:
+string
+;
+}
+type
+Pagina
+=
+"inicio"
+|
+"sobre"
+|
+"contato"
+;
+const
+nav
+:
+Record
+<
+Pagina
+,
+InfoPagina
+> = {
+sobre
+:
+{
+titulo
+:
+"sobre"
+},
+contato
+:
+{
+titulo
+:
+"contato"
+},
+inicio
+:
+{
+titulo
+:
+"inicio"
+},
+};
+nav
+.
+sobre
+;
+const nav: Record<Pagina, InfoPagina>
+Try
+Pick<Type, Keys>
+Constrói um tipo pegando um conjunto de propriedades
+Keys
+de
+Type
+.
+Exemple
+ts
+interface
+Todo
+{
+titulo
+:
+string
+;
+descricao
+:
+string
+;
+completado
+:
+boolean
+;
+}
+type
+TodoPreVisualizacao
+=
+Pick
+<
+Todo
+,
+"titulo"
+|
+"completado"
+>;
+const
+todo
+:
+TodoPreVisualizacao
+= {
+titulo
+:
+"Limpar quarto"
+,
+completado
+:
+false
+,
+};
+todo
+;
+const todo: TodoPreVisualizacao
+Try
+Omit<Type, Keys>
+Constrói um tipo pegando todas as propriedades de
+Type
+e então removendo
+Keys
+.
+Exemplo
+ts
+interface
+Todo
+{
+titulo
+:
+string
+;
+descricao
+:
+string
+;
+completado
+:
+boolean
+;
+}
+type
+TodoPreVisualizacao
+=
+Omit
+<
+Todo
+,
+"descricao"
+>;
+const
+todo
+:
+TodoPreVisualizacao
+= {
+titulo
+:
+"Limpar quarto"
+,
+completado
+:
+false
+,
+};
+todo
+;
+const todo: TodoPreVisualizacao
+Try
+Exclude<Type, ExcludedUnion>
+Constrói um tipo excluindo de
+Type
+todos membros de união que são atribuíveis a
+ExcludedUnion
+.
+Exemplo
+ts
+type
+T0
+=
+Exclude
+<
+"a"
+|
+"b"
+|
+"c"
+,
+"a"
+>;
+type T0 = "b" | "c"
+type
+T1
+=
+Exclude
+<
+"a"
+|
+"b"
+|
+"c"
+,
+"a"
+|
+"b"
+>;
+type T1 = "c"
+type
+T2
+=
+Exclude
+<
+string
+|
+number
+| (()
+=>
+void
+),
+Function
+>;
+type T2 = string | number
+Try
+Extract<Type, Union>
+Constrói um tipo extraindo de
+Type
+todos membros de união que são atribuíveis a
+Union
+.
+Exemplo
+ts
+type
+T0
+=
+Extract
+<
+"a"
+|
+"b"
+|
+"c"
+,
+"a"
+|
+"f"
+>;
+type T0 = "a"
+type
+T1
+=
+Extract
+<
+string
+|
+number
+| (()
+=>
+void
+),
+Function
+>;
+type T1 = () => void
+Try
+NonNullable<Type>
+Constrói um tipo por excluir
+null
+e
+undefined
+de
+Type
+.
+Example
+ts
+type
+T0
+=
+NonNullable
+<
+string
+|
+number
+|
+undefined
+>;
+type T0 = string | number
+type
+T1
+=
+NonNullable
+<
+string
+[] |
+null
+|
+undefined
+>;
+type T1 = string[]
+Try
+Parameters<Type>
+Constrói uma tipo tupla a partir de tipos usados nos parâmetros de uma função tipo
+Type
+.
+Exemplo
+ts
+declare
+function
+f1
+(
+arg
+: {
+a
+:
+number
+;
+b
+:
+string
+}):
+void
+;
+type
+T0
+=
+Parameters
+<()
+=>
+string
+>;
+type T0 = []
+type
+T1
+=
+Parameters
+<(
+s
+:
+string
+)
+=>
+void
+>;
+type T1 = [s: string]
+type
+T2
+=
+Parameters
+<<
+T
+>(
+arg
+:
+T
+)
+=>
+T
+>;
+type T2 = [arg: unknown]
+type
+T3
+=
+Parameters
+<
+typeof
+f1
+>;
+type T3 = [arg: {
+    a: number;
+    b: string;
+}]
+type
+T4
+=
+Parameters
+<
+any
+>;
+type T4 = unknown[]
+type
+T5
+=
+Parameters
+<
+never
+>;
+type T5 = never
+type
+T6
+=
+Parameters
+<
+string
+>;
+Type 'string' does not satisfy the constraint '(...args: any) => any'.
+2344
+Type 'string' does not satisfy the constraint '(...args: any) => any'.
+type T6 = never
+type
+T7
+=
+Parameters
+<
+Function
+>;
+Type 'Function' does not satisfy the constraint '(...args: any) => any'.
+  Type 'Function' provides no match for the signature '(...args: any): any'.
+2344
+Type 'Function' does not satisfy the constraint '(...args: any) => any'.
+  Type 'Function' provides no match for the signature '(...args: any): any'.
+type T7 = never
+Try
+ConstructorParameters<Type>
+Constrói um tipo tupla ou array a partir dos tipos de um tipo função construtora. Isso gera um tipo tupla com todos os tipos parâmetros (ou o tipo
+never
+se
+Type
+não for uma função).
+Exemplo
+ts
+type
+T0
+=
+ConstructorParameters
+<
+ErrorConstructor
+>;
+type T0 = [message?: string]
+type
+T1
+=
+ConstructorParameters
+<
+FunctionConstructor
+>;
+type T1 = string[]
+type
+T2
+=
+ConstructorParameters
+<
+RegExpConstructor
+>;
+type T2 = [pattern: string | RegExp, flags?: string]
+type
+T3
+=
+ConstructorParameters
+<
+any
+>;
+type T3 = unknown[]
+type
+T4
+=
+ConstructorParameters
+<
+Function
+>;
+Type 'Function' does not satisfy the constraint 'abstract new (...args: any) => any'.
+  Type 'Function' provides no match for the signature 'new (...args: any): any'.
+2344
+Type 'Function' does not satisfy the constraint 'abstract new (...args: any) => any'.
+  Type 'Function' provides no match for the signature 'new (...args: any): any'.
+type T4 = never
+Try
+ReturnType<Type>
+Constrói um tipo consistindo do tipo retorno da função
+Type
+.
+Exemplo
+ts
+declare
+function
+f1
+(): {
+a
+:
+number
+;
+b
+:
+string
+};
+type
+T0
+=
+ReturnType
+<()
+=>
+string
+>;
+type T0 = string
+type
+T1
+=
+ReturnType
+<(
+s
+:
+string
+)
+=>
+void
+>;
+type T1 = void
+type
+T2
+=
+ReturnType
+<<
+T
+>()
+=>
+T
+>;
+type T2 = unknown
+type
+T3
+=
+ReturnType
+<<
+T
+extends
+U
+,
+U
+extends
+number
+[]>()
+=>
+T
+>;
+type T3 = number[]
+type
+T4
+=
+ReturnType
+<
+typeof
+f1
+>;
+type T4 = {
+    a: number;
+    b: string;
+}
+type
+T5
+=
+ReturnType
+<
+any
+>;
+type T5 = any
+type
+T6
+=
+ReturnType
+<
+never
+>;
+type T6 = never
+type
+T7
+=
+ReturnType
+<
+string
+>;
+Type 'string' does not satisfy the constraint '(...args: any) => any'.
+2344
+Type 'string' does not satisfy the constraint '(...args: any) => any'.
+type T7 = any
+type
+T8
+=
+ReturnType
+<
+Function
+>;
+Type 'Function' does not satisfy the constraint '(...args: any) => any'.
+  Type 'Function' provides no match for the signature '(...args: any): any'.
+2344
+Type 'Function' does not satisfy the constraint '(...args: any) => any'.
+  Type 'Function' provides no match for the signature '(...args: any): any'.
+type T8 = any
+Try
+InstanceType<Type>
+Constrói um tipo consistindo do tipo instancia de uma função construtora em
+Type
+.
+Exemplo
+ts
+class
+C
+{
+x
+=
+0
+;
+y
+=
+0
+;
+}
+type
+T0
+=
+InstanceType
+<
+typeof
+C
+>;
+type T0 = C
+type
+T1
+=
+InstanceType
+<
+any
+>;
+type T1 = any
+type
+T2
+=
+InstanceType
+<
+never
+>;
+type T2 = never
+type
+T3
+=
+InstanceType
+<
+string
+>;
+Type 'string' does not satisfy the constraint 'abstract new (...args: any) => any'.
+2344
+Type 'string' does not satisfy the constraint 'abstract new (...args: any) => any'.
+type T3 = any
+type
+T4
+=
+InstanceType
+<
+Function
+>;
+Type 'Function' does not satisfy the constraint 'abstract new (...args: any) => any'.
+  Type 'Function' provides no match for the signature 'new (...args: any): any'.
+2344
+Type 'Function' does not satisfy the constraint 'abstract new (...args: any) => any'.
+  Type 'Function' provides no match for the signature 'new (...args: any): any'.
+type T4 = any
+Try
+Required<Type>
+Constrói um tipo consistindo de todas propriedades de
+T
+definidas como obrigatórias. O oposto de
+Partial
+.
+Exemplo
+ts
+interface
+Props
+{
+a
+?:
+number
+;
+b
+?:
+string
+;
+}
+const
+obj
+:
+Props
+= {
+a
+:
+5
+};
+const
+obj2
+:
+Required
+<
+Props
+> = {
+a
+:
+5
+};
+Property 'b' is missing in type '{ a: number; }' but required in type 'Required<Props>'.
+2741
+Property 'b' is missing in type '{ a: number; }' but required in type 'Required<Props>'.
+Try
+ThisParameterType<Type>
+Extrai o tipo do parâmetro
+this
+para um tipo
+function
+, ou
+unknown
+se o tipo da função não tem o parâmetro
+this
+.
+Exemplo
+ts
+function
+paraHex
+(
+this
+:
+Number
+) {
+return
+this
+.
+toString
+(
+16
+);
+}
+function
+numeroToString
+(
+n
+:
+ThisParameterType
+<
+typeof
+paraHex
+>) {
+return
+paraHex
+.
+apply
+(
+n
+);
+}
+Try
+OmitThisParameter<Type>
+Remove o parâmetro
+this
+de
+Type
+. Se
+Type
+não tem parâmetro
+this
+explicitamente declarado, o resultado é simplesmente
+Type
+. Caso contrário, um novo tipo função sem o parâmetro
+this
+é criado a partir de
+Type
+. Generics são apagados e apenas a ultima assinatura sobrecarregada é propagada para o novo tipo função.
+Exemplo
+ts
+function
+paraHex
+(
+this
+:
+Number
+) {
+return
+this
+.
+toString
+(
+16
+);
+}
+const
+cincoParaHex
+:
+OmitThisParameter
+<
+typeof
+paraHex
+> =
+paraHex
+.
+bind
+(
+5
+);
+console
+.
+log
+(
+cincoParaHex
+());
+Try
+ThisType<Type>
+Esse utilitário não retorna um tipo transformado. Ao invés, serve como um marcador para um tipo contextual
+this
+. Note que a flag
+--noImplicitThis
+precisa ser ativada para usar esse utilitário.
+Exemplo
+ts
+type
+DescritorDeObjeto
+<
+D
+,
+M
+> = {
+dado
+?:
+D
+;
+metodos
+?:
+M
+&
+ThisType
+<
+D
+&
+M
+>;
+// Tipo de this em metodos é D & M
+};
+function
+fazObjeto
+<
+D
+,
+M
+>(
+desc
+:
+DescritorDeObjeto
+<
+D
+,
+M
+>):
+D
+&
+M
+{
+let
+dado
+:
+object
+=
+desc
+.
+dado
+|| {};
+let
+metodos
+:
+object
+=
+desc
+.
+metodos
+|| {};
+return
+{ ...
+dado
+, ...
+metodos
+}
+as
+D
+&
+M
+;
+}
+let
+obj
+=
+fazObjeto
+({
+dado
+:
+{
+x
+:
+0
+,
+y
+:
+0
+},
+metodos
+:
+{
+moveBy
+(
+dx
+:
+number
+,
+dy
+:
+number
+) {
+this
+.
+x
++=
+dx
+;
+// this fortemente tipado
+this
+.
+y
++=
+dy
+;
+// this fortemente tipado
+},
+},
+});
+obj
+.
+x
+=
+10
+;
+obj
+.
+y
+=
+20
+;
+obj
+.
+moveBy
+(
+5
+,
+5
+);
+Try
+No exemplo acima, o objeto
+metodos
+no argumento para
+fazObjeto
+tem um tipo contextual que inclui
+EsseTipo<D & M>
+portanto o tipo de
+this
+em metodos dentro do objeto
+metodos
+é
+{ x: number, y: number } & { movePor(dx: number, dy: number): number }
+. Perceba como o tipo da propriedade
+metodos
+é simultaneamente uma interface alvo e a fonte para o tipo
+this
+nos metodos.
+O marcador interface
+EsseTipo<T>
+é simplesmente uma interface vazia declarada em
+lib.d.ts
+. Além de ser reconhecida no tipo contextual de um objeto literal, a interface age como qualquer interface vazia.

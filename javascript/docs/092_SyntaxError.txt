@@ -1,0 +1,104 @@
+URL: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError
+TITULO: SyntaxError
+
+SyntaxError
+Baseline
+Widely available
+*
+This feature is well established and works across many devices and browser versions. Itâs been available across browsers since July 2015.
+* Some parts of this feature may have varying levels of support.
+See full compatibility
+Learn more
+The
+SyntaxError
+object represents an error when trying to interpret syntactically invalid code. It is thrown when the JavaScript engine encounters tokens or token order that does not conform to the syntax of the language when parsing code.
+SyntaxError
+is a
+serializable object
+, so it can be cloned with
+structuredClone()
+or copied between
+Workers
+using
+postMessage()
+.
+SyntaxError
+is a subclass of
+Error
+.
+In this article
+Constructor
+Instance properties
+Instance methods
+Examples
+Specifications
+Browser compatibility
+See also
+Constructor
+SyntaxError()
+Creates a new
+SyntaxError
+object.
+Instance properties
+Also inherits instance properties from its parent
+Error
+.
+These properties are defined on
+SyntaxError.prototype
+and shared by all
+SyntaxError
+instances.
+SyntaxError.prototype.constructor
+The constructor function that created the instance object. For
+SyntaxError
+instances, the initial value is the
+SyntaxError
+constructor.
+SyntaxError.prototype.name
+Represents the name for the type of error. For
+SyntaxError.prototype.name
+, the initial value is
+"SyntaxError"
+.
+Instance methods
+Inherits instance methods from its parent
+Error
+.
+Examples
+Catching a SyntaxError
+js
+try {
+  eval("hoo bar");
+} catch (e) {
+  console.log(e instanceof SyntaxError); // true
+  console.log(e.message);
+  console.log(e.name); // "SyntaxError"
+  console.log(e.stack); // Stack of the error
+}
+Creating a SyntaxError
+js
+try {
+  throw new SyntaxError("Hello");
+} catch (e) {
+  console.log(e instanceof SyntaxError); // true
+  console.log(e.message); // "Hello"
+  console.log(e.name); // "SyntaxError"
+  console.log(e.stack); // Stack of the error
+}
+Specifications
+Specification
+ECMAScriptÂ® 2027 LanguageÂ Specification
+# sec-native-error-types-used-in-this-standard-syntaxerror
+Browser compatibility
+See also
+Error
+Help improve MDN
+Learn how to contribute
+This page was last modified on
+Jul 10, 2025
+by
+MDN contributors
+.
+View this page on GitHub
+â¢
+Report a problem with this content

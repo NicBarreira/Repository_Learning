@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JavaScript — Intermediário</title>
+    <link rel="stylesheet" href="../assets/styles.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="brand-box">
+          <p class="eyebrow">Módulo 1 · Nível 2</p>
+          <h1>JavaScript</h1>
+          <a class="back-link" href="../index.html">← Voltar à página inicial</a>
+          <button class="theme-toggle" type="button" id="theme-toggle" aria-label="Ativar tema escuro">Tema escuro</button>
+        </div>
+        <nav class="nav" aria-label="Índice do JavaScript intermediário">
+          <h2>Trilha JavaScript</h2>
+          <ul>
+            <li><a href="javascript-iniciante.html">Iniciante</a></li>
+            <li><a href="javascript-intermediario.html">Intermediário</a></li>
+            <li><a href="javascript-avancado.html">Avançado</a></li>
+          </ul>
+          <details class="nav-dropdown">
+            <summary>Conteúdos do intermediário</summary>
+            <ul>
+              <li><a href="#visao">O que muda</a></li>
+              <li><a href="#modularizacao">Modularização</a></li>
+              <li><a href="#listas">Métodos de listas</a></li>
+              <li><a href="#assincronismo">Async/await</a></li>
+              <li><a href="#poo">POO e boas práticas</a></li>
+              <li><a href="#typescript">Preparação para TypeScript</a></li>
+            </ul>
+          </details>
+        </nav>
+      </aside>
+      <main class="content">
+        <header class="hero">
+          <p class="eyebrow">Trilha JavaScript</p>
+          <h2>Guia de JavaScript Intermediário</h2>
+          <p>Foco em backend, TypeScript, modularização, APIs REST, regras financeiras e organização de sistemas reais.</p>
+        </header>
+
+        <section id="visao" class="topic">
+          <h3>1. O que muda do básico para o intermediário?</h3>
+          <p>O iniciante aprende comandos, variáveis, comparações, laços e funções. O intermediário aprende a organizar sistemas, separar arquivos, tratar dados e conversar com APIs e bancos sem travar a aplicação.</p>
+          <div class="code-block"><pre><code>const trilha = {
+  iniciante: "comandos e lógica básica",
+  intermediario: "módulos, dados e regras de negócio",
+  avancado: "runtime, performance e baixo nível"
+};
+
+console.log(trilha.intermediario);</code></pre></div>
+          <p>O resultado esperado é sair de scripts isolados para aplicações divididas em camadas e responsabilidades.</p>
+        </section>
+
+        <section id="modularizacao" class="topic">
+          <h3>2. Modularização: dividir para conquistar</h3>
+          <p>Em projetos reais, regras, infraestrutura e apresentação devem ficar em arquivos menores. <code>export</code> disponibiliza uma declaração e <code>import</code> reutiliza somente o que é necessário.</p>
+          <div class="code-block"><pre><code>// conta.js
+export function podeSacar(saldo, valor) {
+  return valor &gt; 0 &amp;&amp; valor &lt;= saldo;
+}
+
+// app.js
+import { podeSacar } from "./conta.js";
+
+console.log(podeSacar(500, 100));</code></pre></div>
+          <p>Prefira ES Modules modernos, imports explícitos e módulos com responsabilidade única. Isso prepara o código para TypeScript e facilita os testes.</p>
+        </section>
+
+        <section id="listas" class="topic">
+          <h3>3. Métodos de listas: chega de laços manuais</h3>
+          <p>Bancos de dados e APIs devolvem coleções o tempo todo. <code>map</code> transforma, <code>filter</code> filtra, <code>find</code> busca o primeiro item e <code>reduce</code> calcula um resultado único.</p>
+          <div class="code-block"><pre><code>const despesas = [
+  { categoria: "luz", valor: 120 },
+  { categoria: "internet", valor: 80 },
+  { categoria: "aluguel", valor: 900 }
+];
+
+const valores = despesas.map((despesa) =&gt; despesa.valor);
+const grandes = despesas.filter((despesa) =&gt; despesa.valor &gt; 100);
+const internet = despesas.find((despesa) =&gt; despesa.categoria === "internet");
+const total = despesas.reduce((soma, despesa) =&gt; soma + despesa.valor, 0);</code></pre></div>
+          <p>Esses métodos evitam mutações acidentais e deixam explícita a intenção de cada transformação.</p>
+        </section>
+
+        <section id="assincronismo" class="topic">
+          <h3>4. Assincronismo real: <code>async</code>, <code>await</code> e <code>Promise.all</code></h3>
+          <p>Consultas a banco, APIs externas e arquivos levam tempo. <code>await</code> pausa a função atual, mas não bloqueia o servidor inteiro. <code>Promise.all</code> executa tarefas independentes em paralelo.</p>
+          <div class="code-block"><pre><code>async function carregarPainel(clienteId) {
+  try {
+    const [conta, transacoes] = await Promise.all([
+      buscarConta(clienteId),
+      buscarTransacoes(clienteId)
+    ]);
+
+    return { conta, transacoes };
+  } catch (erro) {
+    console.error("Falha ao carregar o painel:", erro);
+    throw erro;
+  }
+}</code></pre></div>
+          <p>Não use operações sequenciais quando uma resposta não depende da outra. Trate erros no ponto adequado e mantenha mensagens úteis para logs e usuários.</p>
+        </section>
+
+        <section id="poo" class="topic">
+          <h3>5. Boas práticas e orientação a objetos</h3>
+          <p>Classes juntam dados e regras, como uma conta bancária com operações de depósito e saque. Encapsule invariantes para impedir estados inválidos.</p>
+          <div class="code-block"><pre><code>class Conta {
+  #saldo = 0;
+
+  depositar(valor) {
+    if (valor &lt;= 0) return false;
+    this.#saldo += valor;
+    return true;
+  }
+
+  consultarSaldo() {
+    return this.#saldo;
+  }
+}
+
+const conta = new Conta();
+conta.depositar(500);</code></pre></div>
+          <p>Early return reduz aninhamento: valide erros no início e retorne imediatamente. Desestruturação torna os parâmetros e os dados lidos mais claros.</p>
+          <div class="code-block"><pre><code>function criarTransferencia({ origem, destino, valor }) {
+  if (valor &lt;= 0) return { ok: false, erro: "Valor inválido" };
+  return { ok: true, origem, destino, valor };
+}</code></pre></div>
+        </section>
+
+        <section id="typescript" class="topic">
+          <h3>6. Como isso prepara você para TypeScript?</h3>
+          <p>TypeScript coloca contratos sobre os mesmos pilares de JavaScript. Arrays passam a ser <code>Task[]</code> ou <code>Account[]</code>; objetos passam a exigir interfaces; Promises informam seu resultado com <code>Promise&lt;T&gt;</code>.</p>
+          <div class="code-block"><pre><code>interface Conta {
+  id: string;
+  saldo: number;
+}
+
+async function buscarConta(id: string): Promise&lt;Conta | null&gt; {
+  console.log(`Buscando ${id}`);
+  return null;
+}
+
+const contas: Conta[] = [];</code></pre></div>
+          <div class="note"><strong>Próximo passo:</strong> depois de dominar módulos, arrays, classes e async/await, use o módulo de TypeScript para adicionar tipagem estática à arquitetura.</div>
+        </section>
+      </main>
+    </div>
+    <script>
+      const temaSalvo = localStorage.getItem("javascript-docs-theme");
+      const temaInicial = temaSalvo || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      const botaoTema = document.querySelector("#theme-toggle");
+      function atualizarTema(tema) {
+        document.documentElement.dataset.theme = tema;
+        const escuro = tema === "dark";
+        botaoTema.textContent = escuro ? "Tema claro" : "Tema escuro";
+        botaoTema.setAttribute("aria-label", escuro ? "Ativar tema claro" : "Ativar tema escuro");
+      }
+      atualizarTema(temaInicial);
+      botaoTema.addEventListener("click", () => {
+        const novoTema = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+        localStorage.setItem("javascript-docs-theme", novoTema);
+        atualizarTema(novoTema);
+      });
+      function explicarLinha(linha) {
+        const texto = linha.trim();
+        if (!texto) return "Linha em branco separa etapas.";
+        if (texto.startsWith("//")) return "Comentário que documenta o módulo ou a intenção.";
+        if (texto.startsWith("import ")) return "Importa uma declaração de outro módulo.";
+        if (texto.startsWith("export ")) return "Disponibiliza uma declaração para outros arquivos.";
+        if (texto.startsWith("interface ")) return "Declara um contrato estático.";
+        if (texto.startsWith("class ")) return "Declara uma classe com estado e comportamento.";
+        if (texto.startsWith("async ")) return "Declara uma função assíncrona.";
+        if (texto.includes("Promise.all")) return "Executa Promises independentes em paralelo.";
+        if (texto.includes("await ")) return "Aguarda uma Promise dentro da função atual.";
+        if (texto.includes(".map(")) return "Transforma cada elemento em uma nova lista.";
+        if (texto.includes(".filter(")) return "Filtra elementos por uma condição.";
+        if (texto.includes(".find(")) return "Busca o primeiro elemento correspondente.";
+        if (texto.includes(".reduce(")) return "Acumula os elementos em um único resultado.";
+        if (texto.includes("return ")) return "Devolve um valor ou resultado.";
+        if (texto.includes("console.")) return "Exibe uma informação no console.";
+        if (texto.includes("=")) return "Atribui ou inicializa um valor.";
+        return "Executa uma instrução JavaScript.";
+      }
+      document.querySelectorAll("pre > code").forEach((codigo) => {
+        const painel = document.createElement("div");
+        painel.className = "code-explanation";
+        const titulo = document.createElement("h5");
+        titulo.textContent = "Leitura linha por linha";
+        painel.appendChild(titulo);
+        const lista = document.createElement("ol");
+        codigo.textContent.split("\n").forEach((linha) => {
+          const item = document.createElement("li");
+          const original = document.createElement("code");
+          original.textContent = linha || " ";
+          const explicacao = document.createElement("span");
+          explicacao.textContent = explicarLinha(linha);
+          item.append(original, explicacao);
+          lista.appendChild(item);
+        });
+        painel.appendChild(lista);
+        const resumo = document.createElement("p");
+        resumo.innerHTML = "<strong>O que o código completo faz:</strong> demonstra uma prática intermediária para organizar aplicações JavaScript.";
+        painel.appendChild(resumo);
+        codigo.closest("pre").after(painel);
+      });
+    </script>
+  </body>
+</html>

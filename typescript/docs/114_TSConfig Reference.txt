@@ -1,0 +1,5 @@
+URL: https://www.typescriptlang.org/tsconfig/
+TITULO: TSConfig Reference
+
+Intro to the TSConfig Reference
+A TSConfig file in a directory indicates that the directory is the root of a TypeScript or JavaScript project...

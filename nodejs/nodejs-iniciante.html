@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Node.js — Iniciante</title>
+    <link rel="stylesheet" href="../assets/styles.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="brand-box">
+          <p class="eyebrow">Módulo 3 · Nível 1</p>
+          <h1>Node.js</h1>
+          <a class="back-link" href="../index.html">← Voltar à página inicial</a>
+          <button class="theme-toggle" type="button" id="theme-toggle" aria-label="Ativar tema escuro">Tema escuro</button>
+        </div>
+        <nav class="nav" aria-label="Índice do Node.js iniciante">
+          <h2>Trilha Node.js</h2>
+          <ul>
+            <li><a href="nodejs-iniciante.html">Iniciante</a></li>
+            <li><a href="nodejs-intermediario.html">Intermediário</a></li>
+            <li><a href="nodejs-avancado.html">Avançado</a></li>
+          </ul>
+          <details class="nav-dropdown">
+            <summary>Conteúdos do iniciante</summary>
+            <ul>
+              <li><a href="#visao">O que é Node.js?</a></li>
+              <li><a href="#npm">NPM e package.json</a></li>
+              <li><a href="#modulos">CommonJS e ESM</a></li>
+              <li><a href="#terminal">Terminal e I/O</a></li>
+            </ul>
+          </details>
+        </nav>
+      </aside>
+      <main class="content">
+        <header class="hero">
+          <p class="eyebrow">Trilha Node.js</p>
+          <h2>Guia Definitivo: Node.js para Back-End — Iniciante</h2>
+          <p>O ambiente, o ecossistema de pacotes e os primeiros scripts executados fora do navegador.</p>
+          <div class="note"><strong>Regra de ouro:</strong> Node.js não é uma linguagem nem um framework. É um runtime que usa o motor V8 para executar JavaScript no computador ou servidor.</div>
+        </header>
+
+        <section id="visao" class="topic">
+          <h3>1. O que é o Node.js afinal?</h3>
+          <p>O navegador oferece DOM e APIs de interface. O Node.js executa JavaScript fora do navegador e acrescenta APIs para arquivos, processos, rede, terminal e streams.</p>
+          <div class="code-block"><pre><code>console.log(typeof document); // undefined no Node.js
+console.log(process.platform); // sistema operacional atual
+console.log(process.version); // versão do runtime</code></pre></div>
+        </section>
+
+        <section id="npm" class="topic">
+          <h3>2. NPM e o <code>package.json</code></h3>
+          <p>Todo projeto pode começar com <code>npm init -y</code>. O arquivo <code>package.json</code> funciona como o documento do projeto.</p>
+          <ul>
+            <li><strong>scripts:</strong> atalhos como <code>node --watch server.js</code>.</li>
+            <li><strong>dependencies:</strong> bibliotecas necessárias em produção.</li>
+            <li><strong>node_modules:</strong> dependências instaladas; nunca deve ir para o Git.</li>
+            <li><strong>package-lock.json:</strong> versões exatas para instalações reproduzíveis.</li>
+          </ul>
+          <div class="code-block"><pre><code>npm init -y
+npm install express
+npm run dev</code></pre></div>
+        </section>
+
+        <section id="modulos" class="topic">
+          <h3>3. Sistema de módulos: CommonJS e ESM</h3>
+          <p>CommonJS é o formato tradicional do Node.js. ESM é o padrão moderno, baseado em <code>import</code> e <code>export</code>. Para ativá-lo, use <code>"type": "module"</code> no <code>package.json</code>.</p>
+          <div class="code-block"><pre><code>// matematica.js
+export function somar(a, b) {
+  return a + b;
+}
+
+// index.js
+import { somar } from "./matematica.js";
+console.log(somar(2, 3));</code></pre></div>
+        </section>
+
+        <section id="terminal" class="topic">
+          <h3>4. Execução e entrada pelo terminal</h3>
+          <p>Execute arquivos com <code>node nomeDoArquivo.js</code>. Para coletar respostas do teclado de forma assíncrona, use <code>node:readline/promises</code>.</p>
+          <div class="code-block"><pre><code>import { createInterface } from "node:readline/promises";
+import { stdin as entrada, stdout as saida } from "node:process";
+
+const terminal = createInterface({ input: entrada, output: saida });
+const nome = await terminal.question("Qual é o seu nome? ");
+console.log(`Olá, ${nome}!`);
+terminal.close();</code></pre></div>
+          <div class="note"><strong>Prática:</strong> use <code>node --watch arquivo.js</code> durante o estudo para reiniciar o script automaticamente.</div>
+        </section>
+      </main>
+    </div>
+    <script src="nodejs-theme.js"></script>
+  </body>
+</html>

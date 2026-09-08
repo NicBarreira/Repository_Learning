@@ -1,0 +1,68 @@
+URL: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Regex_numbers_out_of_order_in_quantifier
+TITULO: SyntaxError: numbers out of order in {} quantifier.
+
+SyntaxError: numbers out of order in {} quantifier.
+The JavaScript exception "numbers out of order in {} quantifier" occurs when a
+quantifier
+in a regular expression uses the
+{n,m}
+syntax but
+m
+is less than
+n
+.
+In this article
+Message
+Error type
+What went wrong?
+Examples
+See also
+Message
+SyntaxError: Invalid regular expression: /1{2,1}/: numbers out of order in {} quantifier (V8-based)
+SyntaxError: numbers out of order in {} quantifier. (Firefox)
+SyntaxError: Invalid regular expression: numbers out of order in {} quantifier (Safari)
+Error type
+SyntaxError
+What went wrong?
+The
+{n,m}
+syntax in a regular expression is used to specify that the preceding item is to be matched at least
+n
+times, but not more than
+m
+times. If
+m
+is less than
+n
+, the quantifier is nonsensical because, for example, a character cannot appear at least 2 times but not more than 1 time. Therefore, an error is thrown.
+Examples
+Invalid examples
+js
+/1{2,1}/;
+Valid examples
+js
+/1{1,2}/;
+See also
+Regular expressions
+Quantifier:
+*
+,
++
+,
+?
+,
+{n}
+,
+{n,}
+,
+{n,m}
+Help improve MDN
+Learn how to contribute
+This page was last modified on
+Jul 8, 2025
+by
+MDN contributors
+.
+View this page on GitHub
+â¢
+Report a problem with this content

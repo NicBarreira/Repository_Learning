@@ -1,0 +1,67 @@
+URL: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Regex_invalid_char_in_class
+TITULO: SyntaxError: invalid character in class in regular expression
+
+SyntaxError: invalid character in class in regular expression
+The JavaScript exception "invalid character in class in regular expression" occurs when a character appears in a
+v
+-mode character class
+but it's not allowed to appear literally.
+In this article
+Message
+Error type
+What went wrong?
+Examples
+See also
+Message
+SyntaxError: Invalid regular expression: /[|]/v: Invalid character in character class (V8-based)
+SyntaxError: invalid character in class in regular expression (Firefox)
+SyntaxError: Invalid regular expression: invalid class set character (Safari)
+Error type
+SyntaxError
+What went wrong?
+Normally, character classes can contain almost all characters literally. However, the
+v
+mode made the character class syntax more sophisticated, and in order to leave room for future syntax extensions, some syntax characters are forbidden from appearing literally in a character class. They include:
+(
+,
+)
+,
+[
+,
+]
+,
+{
+,
+}
+,
+/
+,
+-
+,
+|
+. If you want to match these literal characters, escape them; for example:
+/[\|]/v
+.
+Examples
+Invalid cases
+js
+/[(){}]/v;
+Valid cases
+js
+/[\(\)\{\}]/v;
+See also
+Regular expressions
+Character class:
+[...]
+,
+[^...]
+Help improve MDN
+Learn how to contribute
+This page was last modified on
+Jul 8, 2025
+by
+MDN contributors
+.
+View this page on GitHub
+â¢
+Report a problem with this content

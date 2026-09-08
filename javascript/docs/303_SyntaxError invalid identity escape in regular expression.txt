@@ -1,0 +1,69 @@
+URL: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Regex_invalid_identity_escape
+TITULO: SyntaxError: invalid identity escape in regular expression
+
+SyntaxError: invalid identity escape in regular expression
+The JavaScript exception "invalid identity escape in regular expression" occurs when a
+Unicode-aware
+regular expression pattern contains an
+escape sequence
+that does not represent a recognized escape sequence.
+In this article
+Message
+Error type
+What went wrong?
+Examples
+See also
+Message
+SyntaxError: Invalid regular expression: /\q/u: Invalid escape (V8-based)
+SyntaxError: invalid identity escape in regular expression (Firefox)
+SyntaxError: Invalid regular expression: invalid escaped character for Unicode pattern (Safari)
+Error type
+SyntaxError
+What went wrong?
+In Unicode-unaware mode,
+\
+could be used to escape any character, including those without a defined meaning. In these cases, the escaped character represents itself. For example,
+\q
+would match the character
+q
+. This severely limits the ability to add new escape sequences in the future, so in Unicode-aware mode, only recognized escape sequences are allowed. Do not add
+\
+redundantly.
+This error is also thrown when the
+\x
+character escape
+is not followed by two hexadecimal digits.
+For an exhaustive list of available escape sequences, see the
+regular expressions reference
+. For a table of which characters can appear literally escaped or unescaped in each context, see
+literal characters
+.
+Examples
+Invalid cases
+js
+/[\f\v\n\t\ ]/u;
+Valid cases
+js
+// There's no need to escape the space
+/[\f\v\n\t ]/u;
+See also
+Regular expressions
+Escape sequences
+Character escape:
+\n
+,
+\u{...}
+Literal character:
+a
+,
+b
+Help improve MDN
+Learn how to contribute
+This page was last modified on
+Jul 8, 2025
+by
+MDN contributors
+.
+View this page on GitHub
+â¢
+Report a problem with this content

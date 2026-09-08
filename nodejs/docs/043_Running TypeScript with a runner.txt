@@ -1,0 +1,65 @@
+URL: https://nodejs.org/learn/typescript/run
+TITULO: Running TypeScript with a runner
+
+Running TypeScript with a runner
+If you want more advanced processing of TypeScript than the built-in support (or you're using Node.js prior to v22.7.0), you have 2 options: use a runner (which handles much of the complexity for you), or handle it all yourself via
+transpilation
+.
+Running TypeScript code with
+ts-node
+ts-node
+is a TypeScript execution environment for Node.js. It allows you to run TypeScript code directly in Node.js without the need to compile it first. By default,
+ts-node
+performs type checking unless
+transpileOnly
+is enabled. While
+ts-node
+can catch type errors at runtime, we still recommend type-checking your code first with
+tsc
+before shipping it.
+To use
+ts-node
+, you need to install it first:
+npm
+i
+-D
+ts-node
+Then you can run your TypeScript code like this:
+npx
+ts-node
+example.ts
+Running TypeScript code with
+tsx
+tsx
+is another TypeScript execution environment for Node.js. It allows you to run TypeScript code directly in Node.js without the need to compile it first. Note, however, that it does not type check your code. So we recommend to type check your code first with
+tsc
+and then run it with
+tsx
+before shipping it.
+To use
+tsx
+, you need to install it first:
+npm
+i
+-D
+tsx
+Then you can run your TypeScript code like this:
+npx
+tsx
+example.ts
+Registering
+tsx
+via
+node
+If you want to use
+tsx
+via
+node
+, you can register
+tsx
+via
+--import
+:
+node
+--import=tsx
+example.ts

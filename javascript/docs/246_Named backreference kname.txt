@@ -1,0 +1,92 @@
+URL: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Regular_expressions/Named_backreference
+TITULO: Named backreference: \k<name>
+
+Named backreference: \k<name>
+Baseline
+Widely available
+This feature is well established and works across many devices and browser versions. Itâs been available across browsers since July 2020.
+See full compatibility
+Learn more
+A
+named backreference
+refers to the submatch of a previous
+named capturing group
+and matches the same text as that group. For
+unnamed capturing groups
+, you need to use the normal
+backreference
+syntax.
+In this article
+Syntax
+Description
+Examples
+Specifications
+Browser compatibility
+See also
+Syntax
+regex
+\k<name>
+Parameters
+name
+The name of the group. Must be a valid
+identifier
+and refer to an existent named capturing group.
+Description
+Named backreferences are very similar to normal backreferences: it refers to the text matched by a capturing group and matches the same text. The difference is that you refer to the capturing group by name instead of by number. This makes the regular expression more readable and easier to refactor and maintain.
+In
+Unicode-unaware mode
+, the sequence
+\k
+only starts a named backreference if the regex contains at least one named capturing group. Otherwise, it is an
+identity escape
+and is the same as the literal character
+k
+. This is a
+deprecated syntax for web compatibility
+, and you should not rely on it.
+js
+/\k/.test("k"); // true
+Examples
+Pairing quotes
+The following function matches the
+title='xxx'
+and
+title="xxx"
+patterns in a string. To ensure the quotes match, we use a backreference to refer to the first quote. Accessing the second capturing group (
+[2]
+) returns the string between the matching quote characters:
+js
+function parseTitle(metastring) {
+  return metastring.match(/title=(?<quote>["'])(.*?)\k<quote>/)[2];
+}
+
+parseTitle('title="foo"'); // 'foo'
+parseTitle("title='foo' lang='en'"); // 'foo'
+parseTitle('title="Named capturing groups\' advantages"'); // "Named capturing groups' advantages"
+Specifications
+Specification
+ECMAScriptÂ® 2027 LanguageÂ Specification
+# prod-AtomEscape
+Browser compatibility
+See also
+Groups and backreferences
+guide
+Regular expressions
+Capturing group:
+(...)
+Named capturing group:
+(?<name>...)
+Backreference:
+\1
+,
+\2
+Help improve MDN
+Learn how to contribute
+This page was last modified on
+Jul 8, 2025
+by
+MDN contributors
+.
+View this page on GitHub
+â¢
+Report a problem with this content

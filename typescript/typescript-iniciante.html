@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TypeScript — Iniciante</title>
+    <link rel="stylesheet" href="../assets/styles.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="brand-box">
+          <p class="eyebrow">Módulo 2 · Nível 1</p>
+          <h1>TypeScript</h1>
+          <a class="back-link" href="../index.html">← Voltar à página inicial</a>
+          <button class="theme-toggle" type="button" id="theme-toggle" aria-label="Ativar tema escuro">Tema escuro</button>
+        </div>
+        <nav class="nav" aria-label="Índice do TypeScript iniciante">
+          <h2>Trilha TypeScript</h2>
+          <ul>
+            <li><a href="typescript-iniciante.html">Iniciante</a></li>
+            <li><a href="typescript-intermediario.html">Intermediário</a></li>
+            <li><a href="typescript-avancado.html">Avançado</a></li>
+          </ul>
+          <details class="nav-dropdown">
+            <summary>Conteúdos do iniciante</summary>
+            <ul>
+              <li><a href="#visao">Visão geral</a></li>
+              <li><a href="#compilador">Compilador e tsconfig</a></li>
+              <li><a href="#tipos">Tipos e inferência</a></li>
+              <li><a href="#especiais">Tipos especiais</a></li>
+            </ul>
+          </details>
+        </nav>
+      </aside>
+      <main class="content">
+        <header class="hero">
+          <p class="eyebrow">Trilha TypeScript</p>
+          <h2>Guia Definitivo: TypeScript para Back-End (Do Zero ao Avançado)</h2>
+          <p>Primeiro nível: o compilador, os tipos fundamentais e a diferença entre proteção de desenvolvimento e execução.</p>
+          <div class="note"><strong>Regra de ouro:</strong> TypeScript é uma armadura de análise estática. O código final é transpilado para JavaScript antes de rodar no Node.js.</div>
+        </header>
+
+        <section id="visao" class="topic">
+          <h3>Visão geral dos níveis</h3>
+          <p>No nível iniciante, você domina o compilador, tipos primitivos, inferência, <code>any</code>, <code>unknown</code> e contratos simples com <code>interface</code>. Depois, a trilha avança para modelagem de negócio e engenharia de tipos.</p>
+        </section>
+
+        <section id="compilador" class="topic">
+          <h3>1.1 O compilador e o <code>tsconfig.json</code></h3>
+          <p>O TypeScript não é executado diretamente pelo Node.js tradicional. O <code>tsc</code> verifica os tipos e remove as anotações, gerando arquivos JavaScript comuns.</p>
+          <div class="code-block"><pre><code>{
+  "compilerOptions": {
+    "strict": true,
+    "target": "ES2022",
+    "rootDir": "src",
+    "outDir": "dist"
+  },
+  "include": ["src"]
+}</code></pre></div>
+          <ul>
+            <li><code>strict</code> ativa verificações rigorosas.</li>
+            <li><code>target</code> define a versão de JavaScript gerada.</li>
+            <li><code>rootDir</code> indica os fontes e <code>outDir</code> a saída compilada.</li>
+          </ul>
+          <div class="code-block"><pre><code>npx tsc --noEmit
+npx tsc
+node dist/index.js</code></pre></div>
+        </section>
+
+        <section id="tipos" class="topic">
+          <h3>1.2 Tipos primitivos e inferência</h3>
+          <p>Use os tipos em letras minúsculas: <code>string</code>, <code>number</code> e <code>boolean</code>. TypeScript não possui tipos separados para <code>int</code> e <code>float</code>; ambos pertencem a <code>number</code>.</p>
+          <div class="code-block"><pre><code>let nome: string = "Nicolas";
+let idade = 20; // O compilador infere number.
+const ativo: boolean = true;
+
+// idade = "vinte"; // Erro: string não pode substituir number.
+
+function dobro(valor: number): number {
+  return valor * 2;
+}</code></pre></div>
+          <p>Inferência reduz repetição, mas anotações são úteis em APIs públicas, parâmetros importantes e fronteiras de dados.</p>
+        </section>
+
+        <section id="especiais" class="topic">
+          <h3>1.3 Tipos especiais: fuja do <code>any</code></h3>
+          <p><code>any</code> desliga a checagem. <code>unknown</code> é seguro porque exige verificação antes do uso. <code>void</code> indica que uma função não devolve um valor útil; <code>never</code> indica que ela nunca chega ao final normalmente.</p>
+          <div class="code-block"><pre><code>let legado: any = "sem proteção";
+const entrada: unknown = "dado externo";
+
+function registrar(): void {
+  console.log("Ação concluída");
+}
+
+function falhar(mensagem: string): never {
+  throw new Error(mensagem);
+}</code></pre></div>
+          <p>Em aplicações profissionais, prefira <code>unknown</code> para respostas de API, arquivos e valores recebidos do usuário. A validação de runtime será estudada no nível avançado.</p>
+        </section>
+      </main>
+    </div>
+    <script>
+      const temaSalvo = localStorage.getItem("javascript-docs-theme");
+      const temaInicial = temaSalvo || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      const botaoTema = document.querySelector("#theme-toggle");
+      function atualizarTema(tema) {
+        document.documentElement.dataset.theme = tema;
+        const escuro = tema === "dark";
+        botaoTema.textContent = escuro ? "Tema claro" : "Tema escuro";
+        botaoTema.setAttribute("aria-label", escuro ? "Ativar tema claro" : "Ativar tema escuro");
+      }
+      atualizarTema(temaInicial);
+      botaoTema.addEventListener("click", () => {
+        const novoTema = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+        localStorage.setItem("javascript-docs-theme", novoTema);
+        atualizarTema(novoTema);
+      });
+      function explicarLinha(linha) {
+        const texto = linha.trim();
+        if (!texto) return "Linha em branco separa etapas.";
+        if (texto.startsWith("//")) return "Comentário que explica o exemplo.";
+        if (texto.startsWith("interface ")) return "Declara um contrato de objeto.";
+        if (texto.startsWith("type ")) return "Cria um alias de tipo.";
+        if (texto.startsWith("function ")) return "Declara uma função tipada.";
+        if (texto.startsWith("const ")) return "Declara uma referência que não será reatribuída.";
+        if (texto.startsWith("let ")) return "Declara uma variável que poderá mudar.";
+        if (texto.includes("throw ")) return "Lança um erro e interrompe o fluxo normal.";
+        if (texto.includes("console.")) return "Exibe informação no console.";
+        if (texto.includes("=")) return "Atribui ou inicializa um valor.";
+        return "Executa uma instrução TypeScript.";
+      }
+      document.querySelectorAll("pre > code").forEach((codigo) => {
+        const painel = document.createElement("div");
+        painel.className = "code-explanation";
+        const titulo = document.createElement("h5");
+        titulo.textContent = "Leitura linha por linha";
+        painel.appendChild(titulo);
+        const lista = document.createElement("ol");
+        codigo.textContent.split("\n").forEach((linha) => {
+          const item = document.createElement("li");
+          const original = document.createElement("code");
+          original.textContent = linha || " ";
+          const explicacao = document.createElement("span");
+          explicacao.textContent = explicarLinha(linha);
+          item.append(original, explicacao);
+          lista.appendChild(item);
+        });
+        painel.appendChild(lista);
+        const resumo = document.createElement("p");
+        resumo.innerHTML = "<strong>O que o código completo faz:</strong> demonstra fundamentos do compilador e do sistema de tipos.";
+        painel.appendChild(resumo);
+        codigo.closest("pre").after(painel);
+      });
+    </script>
+  </body>
+</html>

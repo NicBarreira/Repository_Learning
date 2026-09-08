@@ -1,0 +1,107 @@
+URL: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Unary_negation
+TITULO: Unary negation (-)
+
+Unary negation (-)
+Baseline
+Widely available
+This feature is well established and works across many devices and browser versions. Itâs been available across browsers since July 2015.
+See full compatibility
+Learn more
+The
+unary negation (
+-
+)
+operator precedes its operand and negates it.
+In this article
+Try it
+Syntax
+Description
+Examples
+Specifications
+Browser compatibility
+See also
+Try it
+const x = 4;
+const y = -x;
+
+console.log(y);
+// Expected output: -4
+
+const a = "4";
+const b = -a;
+
+console.log(b);
+// Expected output: -4
+Syntax
+js
+-x
+Description
+The
+-
+operator is overloaded for two types of operands: number and
+BigInt
+. It first
+coerces the operand to a numeric value
+and tests the type of it. It performs BigInt negation if the operand becomes a BigInt; otherwise, it performs number negation.
+Examples
+Negating numbers
+js
+const x = 3;
+const y = -x;
+// y is -3; x is 3
+Negating non-numbers
+The unary negation operator can convert a non-number into a number.
+js
+const x = "4";
+const y = -x;
+
+// y is -4
+BigInts can be negated using the unary negation operator.
+js
+const x = 4n;
+const y = -x;
+
+// y is -4n
+Specifications
+Specification
+ECMAScriptÂ® 2027 LanguageÂ Specification
+# sec-unary-minus-operator
+Browser compatibility
+See also
+Addition (
++
+)
+Subtraction (
+-
+)
+Division (
+/
+)
+Multiplication (
+*
+)
+Remainder (
+%
+)
+Exponentiation (
+**
+)
+Increment (
+++
+)
+Decrement (
+--
+)
+Unary plus (
++
+)
+Help improve MDN
+Learn how to contribute
+This page was last modified on
+Jul 8, 2025
+by
+MDN contributors
+.
+View this page on GitHub
+â¢
+Report a problem with this content

@@ -1,0 +1,72 @@
+URL: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Setter_one_argument
+TITULO: SyntaxError: setter functions must have one argument
+
+SyntaxError: setter functions must have one argument
+The JavaScript exception "setter functions must have one argument" occurs when a
+setter
+is declared and the parameter list is not consisted of exactly one formal parameter.
+In this article
+Message
+Error type
+What went wrong?
+Examples
+See also
+Message
+SyntaxError: Setter must have exactly one formal parameter. (V8-based)
+SyntaxError: Setter function argument must not be a rest parameter (V8-based)
+SyntaxError: setter functions must have one argument (Firefox)
+SyntaxError: Unexpected token ','. setter functions must have one parameter. (Safari)
+SyntaxError: Unexpected token '...'. Expected a parameter pattern or a ')' in parameter list. (Safari)
+Error type
+SyntaxError
+What went wrong?
+The
+set
+property syntax looks like a function, but it is stricter and not all function syntax is allowed. A setter is always invoked with exactly one argument, so defining it with any other number of parameters is likely an error. This parameter can be
+destructured
+or have a
+default value
+, but it cannot be a
+rest parameter
+.
+Note that this error only applies to property setters using the
+set
+syntax. If you define the setter using
+Object.defineProperty()
+, etc., the setter is defined as a normal function, although it's likely still an error if the setter expects any other number of arguments, as it will be called with exactly one.
+Examples
+Invalid cases
+js
+const obj = {
+  set value() {
+    this._value = Math.random();
+  },
+};
+Valid cases
+js
+// You must declare one parameter, even if you don't use it
+const obj = {
+  set value(_ignored) {
+    this._value = Math.random();
+  },
+};
+
+// You can also declare a normal method instead
+const obj = {
+  setValue() {
+    this._value = Math.random();
+  },
+};
+See also
+Functions
+set
+Help improve MDN
+Learn how to contribute
+This page was last modified on
+Jul 8, 2025
+by
+MDN contributors
+.
+View this page on GitHub
+â¢
+Report a problem with this content

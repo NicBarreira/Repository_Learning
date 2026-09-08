@@ -1,0 +1,59 @@
+URL: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/No_properties
+TITULO: TypeError: null/undefined has no properties
+
+TypeError: null/undefined has no properties
+The JavaScript exception "null (or undefined) has no properties" occurs when you
+attempt to access properties of
+null
+and
+undefined
+. They
+don't have any.
+In this article
+Message
+Error type
+What went wrong?
+Examples
+See also
+Message
+TypeError: Cannot read properties of undefined (reading 'x') (V8-based)
+TypeError: Cannot destructure 'x' as it is undefined. (V8-based)
+TypeError: Cannot destructure property 'x' of 'y' as it is undefined. (V8-based)
+TypeError: null has no properties (Firefox)
+TypeError: undefined has no properties (Firefox)
+TypeError: undefined is not an object (evaluating 'undefined.x') (Safari)
+TypeError: Right side of assignment cannot be destructured (Safari)
+Error type
+TypeError
+.
+What went wrong?
+Both
+null
+and
+undefined
+have no properties you could access. Therefore, you cannot use
+property accessors
+on them, or
+destructure
+them.
+Examples
+null and undefined have no properties
+js
+null.foo;
+// TypeError: null has no properties
+
+undefined.bar;
+// TypeError: undefined has no properties
+See also
+null
+undefined
+Help improve MDN
+Learn how to contribute
+This page was last modified on
+Jul 8, 2025
+by
+MDN contributors
+.
+View this page on GitHub
+â¢
+Report a problem with this content

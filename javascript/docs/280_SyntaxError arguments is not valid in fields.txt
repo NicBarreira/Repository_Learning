@@ -1,0 +1,78 @@
+URL: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Arguments_not_allowed
+TITULO: SyntaxError: arguments is not valid in fields
+
+SyntaxError: arguments is not valid in fields
+The JavaScript exception "SyntaxError: arguments is not valid in fields" occurs when the
+arguments
+identifier is read in a class field initializer or in a static initialization block, outside of a non-
+arrow function
+.
+In this article
+Message
+Error type
+What went wrong?
+Examples
+See also
+Message
+SyntaxError: 'arguments' is not allowed in class field initializer or static initialization block (V8-based)
+SyntaxError: arguments is not valid in fields (Firefox)
+SyntaxError: Unexpected identifier 'arguments'. Cannot reference 'arguments' in class field initializer. (Safari)
+Error type
+SyntaxError
+What went wrong?
+A class field initializer expression or a class static initialization block does not have
+arguments
+in its scope. Trying to access it is a syntax error.
+This is true even if
+arguments
+is bound in a parent scope (such as when the class is nested in a non-arrow function).
+A non-arrow function declared within this scope will still bind its own
+arguments
+and read it normally.
+Examples
+js
+function makeOne() {
+  class C {
+    args = { ...arguments }; // SyntaxError: arguments is not valid in fields
+  }
+  return new C();
+}
+js
+let CArgs;
+class C {
+  static {
+    CArgs = arguments; // SyntaxError: arguments is not valid in fields
+  }
+}
+js
+class C {
+  args = {};
+  constructor() {
+    this.args = arguments; // You can use arguments in constructors
+  }
+  myMethod() {
+    this.args = arguments; // You can also use it in methods
+  }
+}
+js
+function makeOne() {
+  const _arguments = arguments;
+  class C {
+    args = { ..._arguments }; // Only the identifier is forbidden
+  }
+  return new C();
+}
+See also
+Classes
+Public class fields
+Static initialization blocks
+Help improve MDN
+Learn how to contribute
+This page was last modified on
+Jul 8, 2025
+by
+MDN contributors
+.
+View this page on GitHub
+â¢
+Report a problem with this content

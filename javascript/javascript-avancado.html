@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JavaScript — Avançado</title>
+    <link rel="stylesheet" href="../assets/styles.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="brand-box">
+          <p class="eyebrow">Módulo 1 · Nível 3</p>
+          <h1>JavaScript</h1>
+          <a class="back-link" href="../index.html">← Voltar à página inicial</a>
+          <button class="theme-toggle" type="button" id="theme-toggle" aria-label="Ativar tema escuro">Tema escuro</button>
+        </div>
+        <nav class="nav" aria-label="Índice do JavaScript avançado">
+          <h2>Trilha JavaScript</h2>
+          <ul>
+            <li><a href="javascript-iniciante.html">Iniciante</a></li>
+            <li><a href="javascript-intermediario.html">Intermediário</a></li>
+            <li><a href="javascript-avancado.html">Avançado</a></li>
+          </ul>
+          <details class="nav-dropdown">
+            <summary>Conteúdos do avançado</summary>
+            <ul>
+              <li><a href="#motor">V8 e memória</a></li>
+              <li><a href="#event-loop">Event Loop</a></li>
+              <li><a href="#proxy">Proxy e Reflect</a></li>
+              <li><a href="#generators">Generators</a></li>
+              <li><a href="#buffers">Buffers e Streams</a></li>
+            </ul>
+          </details>
+        </nav>
+      </aside>
+      <main class="content">
+        <header class="hero">
+          <p class="eyebrow">Trilha JavaScript</p>
+          <h2>JavaScript Avançado</h2>
+          <p>Runtime V8, memória, concorrência, metaprogramação e processamento de dados no backend.</p>
+        </header>
+
+        <section id="motor" class="topic">
+          <h3>1. O motor interno: Call Stack, Heap e Garbage Collection</h3>
+          <p>Node.js e navegadores usam o motor V8. A Call Stack executa funções de forma síncrona no modelo LIFO: a última chamada adicionada é a primeira a terminar.</p>
+          <p>O Memory Heap armazena objetos, arrays e closures. O Garbage Collector usa técnicas como Mark-and-Sweep para liberar estruturas que não possuem mais referências alcançáveis.</p>
+          <div class="code-block"><pre><code>function criarSessao() {
+  const sessao = { usuarioId: "u1" };
+  return sessao;
+}
+
+let sessaoAtual = criarSessao();
+sessaoAtual = null; // A sessão anterior pode ser coletada futuramente.</code></pre></div>
+          <p>Memory leaks acontecem quando referências continuam ativas sem necessidade, como listeners nunca removidos, caches infinitos e variáveis globais acumuladas.</p>
+        </section>
+
+        <section id="event-loop" class="topic">
+          <h3>2. A ordem do Event Loop: Microtasks e Macrotasks</h3>
+          <p>JavaScript executa o código principal em uma thread, mas o ambiente coordena operações externas. Primeiro a Call Stack precisa esvaziar; depois as microtasks são processadas; só então macrotasks aguardam sua vez.</p>
+          <div class="subsection">
+            <h4>Prioridade prática</h4>
+            <ul>
+              <li><strong>Call Stack:</strong> código síncrono, como condições e <code>console.log</code>.</li>
+              <li><strong>Microtasks:</strong> callbacks de Promises e <code>queueMicrotask</code>.</li>
+              <li><strong>Macrotasks:</strong> timers, eventos e tarefas agendadas pelo ambiente.</li>
+            </ul>
+          </div>
+          <div class="code-block"><pre><code>console.log("1: síncrono");
+
+setTimeout(() =&gt; console.log("4: macrotask"), 0);
+
+Promise.resolve().then(() =&gt; {
+  console.log("3: microtask");
+});
+
+console.log("2: síncrono");
+
+// Ordem: 1, 2, 3, 4.</code></pre></div>
+          <p>Uma cadeia infinita de microtasks pode atrasar timers e eventos. Por isso, tarefas pesadas devem ser divididas ou movidas para workers/processos adequados.</p>
+        </section>
+
+        <section id="proxy" class="topic">
+          <h3>3. Metaprogramação: <code>Proxy</code> e <code>Reflect</code></h3>
+          <p>Metaprogramação permite interceptar operações básicas, como leitura e escrita de propriedades. <code>Proxy</code> cria uma camada de interceptação; <code>Reflect</code> executa a operação padrão de forma consistente.</p>
+          <div class="code-block"><pre><code>const conta = { saldo: 100 };
+
+const contaVigiada = new Proxy(conta, {
+  set(alvo, propriedade, valor) {
+    if (propriedade === "saldo" &amp;&amp; valor &lt; 0) {
+      throw new Error("Saldo não pode ficar negativo");
+    }
+
+    return Reflect.set(alvo, propriedade, valor);
+  }
+});
+
+contaVigiada.saldo = 500;</code></pre></div>
+          <p>Proxies são úteis em validação e reatividade, mas aumentam a complexidade. Use-os quando a interceptação realmente fizer parte do modelo da aplicação.</p>
+        </section>
+
+        <section id="generators" class="topic">
+          <h3>4. Controle de fluxo sob demanda: Generators</h3>
+          <p>Uma função geradora usa <code>function*</code> e pode pausar com <code>yield</code>. Cada chamada de <code>next()</code> continua de onde a execução parou.</p>
+          <div class="code-block"><pre><code>function* gerarContador() {
+  let id = 1;
+
+  while (true) {
+    yield id;
+    id += 1;
+  }
+}
+
+const contador = gerarContador();
+console.log(contador.next().value); // 1
+console.log(contador.next().value); // 2</code></pre></div>
+          <p>Generators permitem lazy evaluation: valores são produzidos sob demanda, sem carregar uma sequência inteira na memória.</p>
+        </section>
+
+        <section id="buffers" class="topic">
+          <h3>5. Baixo nível no backend: Buffers e Streams</h3>
+          <p>Buffers representam sequências brutas de bytes. Streams processam dados em pequenos chunks, evitando carregar um arquivo ou upload inteiro na RAM.</p>
+          <div class="code-block"><pre><code>import { createReadStream, createWriteStream } from "node:fs";
+
+const origem = createReadStream("./entrada.csv");
+const destino = createWriteStream("./copia.csv");
+
+origem.pipe(destino);
+
+destino.on("finish", () =&gt; {
+  console.log("Arquivo copiado por partes");
+});</code></pre></div>
+          <p><code>pipe</code> conecta uma stream de leitura a uma stream de escrita. Em aplicações reais, trate erros, backpressure e encerramento dos recursos.</p>
+          <div class="code-block"><pre><code>const dados = Buffer.from("transferência");
+console.log(dados);
+console.log(dados.toString("utf8"));</code></pre></div>
+        </section>
+      </main>
+    </div>
+    <script>
+      const temaSalvo = localStorage.getItem("javascript-docs-theme");
+      const temaInicial = temaSalvo || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      const botaoTema = document.querySelector("#theme-toggle");
+      function atualizarTema(tema) {
+        document.documentElement.dataset.theme = tema;
+        const escuro = tema === "dark";
+        botaoTema.textContent = escuro ? "Tema claro" : "Tema escuro";
+        botaoTema.setAttribute("aria-label", escuro ? "Ativar tema claro" : "Ativar tema escuro");
+      }
+      atualizarTema(temaInicial);
+      botaoTema.addEventListener("click", () => {
+        const novoTema = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+        localStorage.setItem("javascript-docs-theme", novoTema);
+        atualizarTema(novoTema);
+      });
+      function explicarLinha(linha) {
+        const texto = linha.trim();
+        if (!texto) return "Linha em branco separa etapas.";
+        if (texto.startsWith("//")) return "Comentário que documenta a execução.";
+        if (texto.startsWith("import ")) return "Importa uma API do ambiente Node.js.";
+        if (texto.startsWith("function*")) return "Declara uma função geradora.";
+        if (texto.startsWith("const ")) return "Declara uma referência.";
+        if (texto.startsWith("while ")) return "Repete enquanto a condição for verdadeira.";
+        if (texto.includes("setTimeout")) return "Agenda uma macrotask para o ambiente.";
+        if (texto.includes("Promise")) return "Agenda uma microtask associada a uma Promise.";
+        if (texto.includes("Proxy")) return "Cria uma camada que intercepta operações do objeto.";
+        if (texto.includes("Reflect")) return "Executa a operação padrão de reflexão.";
+        if (texto.includes(".pipe(")) return "Conecta uma stream de leitura a uma stream de escrita.";
+        if (texto.includes("yield")) return "Pausa o generator e entrega um valor.";
+        if (texto.includes("Buffer.")) return "Cria ou manipula bytes em memória.";
+        if (texto.includes("console.")) return "Exibe uma informação no console.";
+        if (texto.includes("=")) return "Atribui ou inicializa um valor.";
+        return "Executa uma instrução JavaScript avançada.";
+      }
+      document.querySelectorAll("pre > code").forEach((codigo) => {
+        const painel = document.createElement("div");
+        painel.className = "code-explanation";
+        const titulo = document.createElement("h5");
+        titulo.textContent = "Leitura linha por linha";
+        painel.appendChild(titulo);
+        const lista = document.createElement("ol");
+        codigo.textContent.split("\n").forEach((linha) => {
+          const item = document.createElement("li");
+          const original = document.createElement("code");
+          original.textContent = linha || " ";
+          const explicacao = document.createElement("span");
+          explicacao.textContent = explicarLinha(linha);
+          item.append(original, explicacao);
+          lista.appendChild(item);
+        });
+        painel.appendChild(lista);
+        const resumo = document.createElement("p");
+        resumo.innerHTML = "<strong>O que o código completo faz:</strong> demonstra um mecanismo avançado do runtime JavaScript.";
+        painel.appendChild(resumo);
+        codigo.closest("pre").after(painel);
+      });
+    </script>
+  </body>
+</html>

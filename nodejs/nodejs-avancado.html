@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Node.js — Avançado</title>
+    <link rel="stylesheet" href="../assets/styles.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="brand-box">
+          <p class="eyebrow">Módulo 3 · Nível 3</p>
+          <h1>Node.js</h1>
+          <a class="back-link" href="../index.html">← Voltar à página inicial</a>
+          <button class="theme-toggle" type="button" id="theme-toggle" aria-label="Ativar tema escuro">Tema escuro</button>
+        </div>
+        <nav class="nav" aria-label="Índice do Node.js avançado">
+          <h2>Trilha Node.js</h2>
+          <ul>
+            <li><a href="nodejs-iniciante.html">Iniciante</a></li>
+            <li><a href="nodejs-intermediario.html">Intermediário</a></li>
+            <li><a href="nodejs-avancado.html">Avançado</a></li>
+          </ul>
+          <details class="nav-dropdown">
+            <summary>Conteúdos do avançado</summary>
+            <ul>
+              <li><a href="#visao">Visão geral</a></li>
+              <li><a href="#event-loop">Event Loop e libuv</a></li>
+              <li><a href="#streams">Buffers e Streams</a></li>
+              <li><a href="#processos">Cluster e Workers</a></li>
+              <li><a href="#seguranca">Segurança e JWT</a></li>
+            </ul>
+          </details>
+        </nav>
+      </aside>
+      <main class="content">
+        <header class="hero">
+          <p class="eyebrow">Trilha Node.js</p>
+          <h2>Nível Avançado: Arquitetura, Performance e Baixo Nível</h2>
+          <p>Como o runtime agenda trabalho, processa grandes volumes, distribui carga e protege APIs em produção.</p>
+        </header>
+
+        <section id="visao" class="topic">
+          <h3>O que caracteriza a engenharia de servidores?</h3>
+          <p>O objetivo não é apenas fazer uma rota responder, mas manter latência previsível, consumo de memória controlado, concorrência segura e proteção contra falhas em lote.</p>
+        </section>
+
+        <section id="event-loop" class="topic">
+          <h3>1. Event Loop e libuv</h3>
+          <p>O Node.js executa JavaScript em uma thread principal e delega I/O de rede e disco à libuv. Microtasks como Promises e <code>process.nextTick</code> têm prioridade antes dos timers e do polling de I/O.</p>
+          <div class="code-block"><pre><code>console.log("1: síncrono");
+
+setTimeout(() =&gt; console.log("4: timer"), 0);
+Promise.resolve().then(() =&gt; console.log("3: microtask"));
+process.nextTick(() =&gt; console.log("2: nextTick"));
+
+console.log("1: fim do síncrono");</code></pre></div>
+          <p>A ordem exata deve ser considerada ao diagnosticar latência: o código síncrono termina, as filas prioritárias são esvaziadas e só depois os timers avançam.</p>
+        </section>
+
+        <section id="streams" class="topic">
+          <h3>2. Buffers e Streams</h3>
+          <p><code>Buffer</code> representa bytes brutos fora da memória comum de objetos V8. Streams transferem dados em chunks e evitam carregar um arquivo de 1 GB inteiro na RAM.</p>
+          <div class="code-block"><pre><code>import { createReadStream, createWriteStream } from "node:fs";
+
+const origem = createReadStream("relatorio.csv");
+const destino = createWriteStream("relatorio-copia.csv");
+
+origem.on("error", console.error);
+destino.on("error", console.error);
+origem.pipe(destino);
+destino.on("finish", () =&gt; console.log("Cópia concluída."));</code></pre></div>
+          <p>O <code>pipe</code> conecta leitura e escrita, respeitando backpressure quando o destino não consegue acompanhar a origem.</p>
+        </section>
+
+        <section id="processos" class="topic">
+          <h3>3. Multiprocessamento: Cluster e Worker Threads</h3>
+          <p>O módulo <code>cluster</code> cria processos filhos que podem dividir requisições entre núcleos. <code>worker_threads</code> executa cálculos pesados sem congelar as rotas HTTP.</p>
+          <div class="code-block"><pre><code>import cluster from "node:cluster";
+import { availableParallelism } from "node:os";
+
+if (cluster.isPrimary) {
+  const quantidade = availableParallelism();
+  for (let i = 0; i &lt; quantidade; i += 1) cluster.fork();
+} else {
+  iniciarServidor();
+}</code></pre></div>
+          <p>Use workers para CPU intenso, como redimensionamento de imagens ou criptografia. Não use múltiplos processos como substituto para corrigir vazamentos de memória.</p>
+        </section>
+
+        <section id="seguranca" class="topic">
+          <h3>4. Segurança e autenticação</h3>
+          <ul>
+            <li>Faça hashing unidirecional de senhas com <code>bcrypt</code> ou <code>argon2</code>; nunca armazene a senha original.</li>
+            <li>Emita JWTs com expiração curta, valide assinatura e não confie apenas no conteúdo decodificado.</li>
+            <li>Separe autenticação de autorização e aplique RBAC para controlar permissões.</li>
+            <li>Valide entradas, limite requisições, oculte segredos e registre falhas sem expor dados sensíveis.</li>
+          </ul>
+          <div class="note"><strong>Regra de produção:</strong> performance não compensa uma API que aceita dados inválidos ou permite acesso sem autorização.</div>
+        </section>
+      </main>
+    </div>
+    <script src="nodejs-theme.js"></script>
+  </body>
+</html>

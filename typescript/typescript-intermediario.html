@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TypeScript — Intermediário</title>
+    <link rel="stylesheet" href="../assets/styles.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="brand-box">
+          <p class="eyebrow">Módulo 2 · Nível 2</p>
+          <h1>TypeScript</h1>
+          <a class="back-link" href="../index.html">← Voltar à página inicial</a>
+          <button class="theme-toggle" type="button" id="theme-toggle" aria-label="Ativar tema escuro">Tema escuro</button>
+        </div>
+        <nav class="nav" aria-label="Índice do TypeScript intermediário">
+          <h2>Trilha TypeScript</h2>
+          <ul>
+            <li><a href="typescript-iniciante.html">Iniciante</a></li>
+            <li><a href="typescript-intermediario.html">Intermediário</a></li>
+            <li><a href="typescript-avancado.html">Avançado</a></li>
+          </ul>
+          <details class="nav-dropdown">
+            <summary>Conteúdos do intermediário</summary>
+            <ul>
+              <li><a href="#visao">Visão geral</a></li>
+              <li><a href="#interface-type">Interface versus type</a></li>
+              <li><a href="#colecoes">Coleções e tuplas</a></li>
+              <li><a href="#poo">POO e modificadores</a></li>
+              <li><a href="#generics">Generics</a></li>
+            </ul>
+          </details>
+        </nav>
+      </aside>
+      <main class="content">
+        <header class="hero">
+          <p class="eyebrow">Trilha TypeScript</p>
+          <h2>Nível Intermediário: Modelagem de Negócio e POO</h2>
+          <p>O desenvolvedor júnior aprende a estruturar serviços, DTOs de APIs, repositórios e classes com contratos rigorosos.</p>
+        </header>
+
+        <section id="visao" class="topic">
+          <h3>O que você domina neste nível?</h3>
+          <p>Depois dos fundamentos, TypeScript passa a proteger decisões de arquitetura: entidades, estados de negócio, coleções, classes, módulos e respostas de API.</p>
+        </section>
+
+        <section id="interface-type" class="topic">
+          <h3>1. <code>interface</code> versus <code>type</code></h3>
+          <p>Interfaces são excelentes para formatos de objetos e contratos que podem ser estendidos ou implementados por classes. Aliases são mais flexíveis para unions, literais, tuplas e combinações.</p>
+          <div class="code-block"><pre><code>type StatusPedido = "PENDENTE" | "PAGO" | "CANCELADO";
+
+interface Pedido {
+  id: number;
+  total: number;
+  status: StatusPedido;
+  clienteEmail?: string;
+  readonly criadoEm: Date;
+}
+
+const pedido: Pedido = {
+  id: 1,
+  total: 500,
+  status: "PENDENTE",
+  criadoEm: new Date()
+};</code></pre></div>
+          <p>Use unions literais para restringir estados. Use propriedades opcionais somente quando a ausência for realmente válida.</p>
+        </section>
+
+        <section id="colecoes" class="topic">
+          <h3>2. Coleções tipadas e tuplas</h3>
+          <p><code>Pedido[]</code> e <code>Array&lt;Pedido&gt;</code> garantem que métodos como <code>map</code>, <code>filter</code> e <code>find</code> conheçam os campos dos itens.</p>
+          <div class="code-block"><pre><code>const pedidos: Pedido[] = [pedido];
+const totais: Array&lt;number&gt; = pedidos.map((item) =&gt; item.total);
+const pagos = pedidos.filter((item) =&gt; item.status === "PAGO");
+
+const resposta: [number, string] = [200, "OK"];
+const respostaRotulada: [status: number, corpo: string] = [200, "OK"];</code></pre></div>
+          <p>Tuplas têm tamanho e posições conhecidas. Use-as para retornos pequenos e estruturados, não como substituto de objetos com nomes claros.</p>
+        </section>
+
+        <section id="poo" class="topic">
+          <h3>3. Orientação a objetos com modificadores</h3>
+          <p><code>public</code> é acessível em qualquer lugar; <code>private</code> somente dentro da classe; <code>protected</code> também permite acesso em subclasses. Encapsule regras para impedir mutações inválidas.</p>
+          <div class="code-block"><pre><code>class ContaBancaria {
+  public readonly titular: string;
+  private saldo: number;
+
+  constructor(titular: string, saldoInicial: number) {
+    this.titular = titular;
+    this.saldo = saldoInicial;
+  }
+
+  public depositar(valor: number): void {
+    if (valor &gt; 0) {
+      this.saldo += valor;
+    }
+  }
+
+  public getSaldo(): number {
+    return this.saldo;
+  }
+}</code></pre></div>
+          <p><code>readonly</code> impede reatribuir o titular depois da inicialização, enquanto o saldo só muda por métodos autorizados.</p>
+        </section>
+
+        <section id="generics" class="topic">
+          <h3>4. Generics básicos</h3>
+          <p>Generics aceitam tipos diferentes sem recorrer a <code>any</code> e preservam a relação entre entrada e saída.</p>
+          <div class="code-block"><pre><code>interface RespostaApi&lt;T&gt; {
+  sucesso: boolean;
+  dados: T;
+}
+
+type Usuario = {
+  id: number;
+  nome: string;
+};
+
+const respostaUsuario: RespostaApi&lt;Usuario&gt; = {
+  sucesso: true,
+  dados: { id: 1, nome: "Nicolas" }
+};</code></pre></div>
+          <p>O mesmo contrato pode servir para usuários, contas, transações e qualquer entidade sem perder os campos específicos de cada dado.</p>
+        </section>
+      </main>
+    </div>
+    <script>
+      const temaSalvo = localStorage.getItem("javascript-docs-theme");
+      const temaInicial = temaSalvo || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      const botaoTema = document.querySelector("#theme-toggle");
+      function atualizarTema(tema) {
+        document.documentElement.dataset.theme = tema;
+        const escuro = tema === "dark";
+        botaoTema.textContent = escuro ? "Tema claro" : "Tema escuro";
+        botaoTema.setAttribute("aria-label", escuro ? "Ativar tema claro" : "Ativar tema escuro");
+      }
+      atualizarTema(temaInicial);
+      botaoTema.addEventListener("click", () => {
+        const novoTema = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+        localStorage.setItem("javascript-docs-theme", novoTema);
+        atualizarTema(novoTema);
+      });
+      function explicarLinha(linha) {
+        const texto = linha.trim();
+        if (!texto) return "Linha em branco separa etapas.";
+        if (texto.startsWith("//")) return "Comentário que explica o contrato.";
+        if (texto.startsWith("interface ")) return "Declara um contrato de objeto.";
+        if (texto.startsWith("type ")) return "Declara um alias ou union de tipos.";
+        if (texto.startsWith("class ")) return "Declara uma classe com estado e comportamento.";
+        if (texto.startsWith("constructor")) return "Inicializa uma nova instância.";
+        if (texto.startsWith("const ")) return "Declara uma constante tipada.";
+        if (texto.includes("extends")) return "Aplica uma restrição ou herança.";
+        if (texto.includes(".map(")) return "Transforma os itens de uma coleção.";
+        if (texto.includes(".filter(")) return "Seleciona itens por uma condição.";
+        if (texto.includes("return ")) return "Devolve um valor.";
+        if (texto.includes("if ")) return "Verifica uma condição.";
+        if (texto.includes("=")) return "Atribui ou inicializa um valor.";
+        return "Executa uma instrução TypeScript.";
+      }
+      document.querySelectorAll("pre > code").forEach((codigo) => {
+        const painel = document.createElement("div");
+        painel.className = "code-explanation";
+        const titulo = document.createElement("h5");
+        titulo.textContent = "Leitura linha por linha";
+        painel.appendChild(titulo);
+        const lista = document.createElement("ol");
+        codigo.textContent.split("\n").forEach((linha) => {
+          const item = document.createElement("li");
+          const original = document.createElement("code");
+          original.textContent = linha || " ";
+          const explicacao = document.createElement("span");
+          explicacao.textContent = explicarLinha(linha);
+          item.append(original, explicacao);
+          lista.appendChild(item);
+        });
+        painel.appendChild(lista);
+        const resumo = document.createElement("p");
+        resumo.innerHTML = "<strong>O que o código completo faz:</strong> demonstra modelagem de domínio e POO com TypeScript.";
+        painel.appendChild(resumo);
+        codigo.closest("pre").after(painel);
+      });
+    </script>
+  </body>
+</html>

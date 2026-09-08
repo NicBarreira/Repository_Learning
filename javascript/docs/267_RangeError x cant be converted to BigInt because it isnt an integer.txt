@@ -1,0 +1,49 @@
+URL: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Cant_be_converted_to_BigInt_because_it_isnt_an_integer
+TITULO: RangeError: x can't be converted to BigInt because it isn't an integer
+
+RangeError: x can't be converted to BigInt because it isn't an integer
+The JavaScript exception "x can't be converted to BigInt because it isn't an integer" occurs when the
+BigInt()
+function is used on a number that isn't an integer.
+In this article
+Message
+Error type
+What went wrong?
+Examples
+See also
+Message
+RangeError: The number 1.5 cannot be converted to a BigInt because it is not an integer (V8-based & Firefox)
+RangeError: Not an integer (Safari)
+Error type
+RangeError
+.
+What went wrong?
+When using the
+BigInt()
+function to convert a number to a BigInt, the number must be an integer (such that
+Number.isInteger
+returns true).
+Examples
+Invalid cases
+js
+const a = BigInt(1.5);
+// RangeError: The number 1.5 cannot be converted to a BigInt because it is not an integer
+const b = BigInt(NaN);
+// RangeError: NaN cannot be converted to a BigInt because it is not an integer
+Valid cases
+js
+const a = BigInt(1);
+See also
+BigInt()
+constructor
+Number.isInteger()
+Help improve MDN
+Learn how to contribute
+This page was last modified on
+Jul 8, 2025
+by
+MDN contributors
+.
+View this page on GitHub
+â¢
+Report a problem with this content

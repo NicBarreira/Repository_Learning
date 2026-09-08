@@ -1,0 +1,94 @@
+URL: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/AsyncFunction
+TITULO: AsyncFunction
+
+AsyncFunction
+Baseline
+Widely available
+This feature is well established and works across many devices and browser versions. Itâs been available across browsers since April 2017.
+See full compatibility
+Learn more
+The
+AsyncFunction
+object provides methods for
+async functions
+. In JavaScript, every async function is actually an
+AsyncFunction
+object.
+Note that
+AsyncFunction
+is
+not
+a global object. It can be obtained with the following code:
+js
+const AsyncFunction = async function () {}.constructor;
+AsyncFunction
+is a subclass of
+Function
+.
+In this article
+Constructor
+Instance properties
+Instance methods
+Specifications
+Browser compatibility
+See also
+Constructor
+AsyncFunction()
+Creates a new
+AsyncFunction
+object.
+Instance properties
+Also inherits instance properties from its parent
+Function
+.
+These properties are defined on
+AsyncFunction.prototype
+and shared by all
+AsyncFunction
+instances.
+AsyncFunction.prototype.constructor
+The constructor function that created the instance object. For
+AsyncFunction
+instances, the initial value is the
+AsyncFunction
+constructor.
+AsyncFunction.prototype[Symbol.toStringTag]
+The initial value of the
+[Symbol.toStringTag]
+property is the string
+"AsyncFunction"
+. This property is used in
+Object.prototype.toString()
+.
+Note:
+AsyncFunction
+instances do not have the
+prototype
+property.
+Instance methods
+Inherits instance methods from its parent
+Function
+.
+Specifications
+Specification
+ECMAScriptÂ® 2027 LanguageÂ Specification
+# sec-async-function-objects
+Browser compatibility
+See also
+async function
+async function
+expression
+Function
+AsyncGeneratorFunction
+GeneratorFunction
+Functions
+Help improve MDN
+Learn how to contribute
+This page was last modified on
+Jul 10, 2025
+by
+MDN contributors
+.
+View this page on GitHub
+â¢
+Report a problem with this content

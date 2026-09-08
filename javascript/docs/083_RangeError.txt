@@ -1,0 +1,140 @@
+URL: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError
+TITULO: RangeError
+
+RangeError
+Baseline
+Widely available
+*
+This feature is well established and works across many devices and browser versions. Itâs been available across browsers since July 2015.
+* Some parts of this feature may have varying levels of support.
+See full compatibility
+Learn more
+The
+RangeError
+object indicates an error when a value is not in the set or range of allowed values.
+In this article
+Description
+Constructor
+Instance properties
+Instance methods
+Examples
+Specifications
+Browser compatibility
+See also
+Description
+A
+RangeError
+is thrown when trying to pass a value as an argument to a function that does not allow a range that includes the value.
+This can be encountered when:
+passing a value that is not one of the allowed string values to
+String.prototype.normalize()
+, or
+when attempting to create an array of an illegal length with the
+Array
+constructor, or
+when passing bad values to the numeric methods
+Number.prototype.toExponential()
+,
+Number.prototype.toFixed()
+or
+Number.prototype.toPrecision()
+.
+RangeError
+is a
+serializable object
+, so it can be cloned with
+structuredClone()
+or copied between
+Workers
+using
+postMessage()
+.
+RangeError
+is a subclass of
+Error
+.
+Constructor
+RangeError()
+Creates a new
+RangeError
+object.
+Instance properties
+Also inherits instance properties from its parent
+Error
+.
+These properties are defined on
+RangeError.prototype
+and shared by all
+RangeError
+instances.
+RangeError.prototype.constructor
+The constructor function that created the instance object. For
+RangeError
+instances, the initial value is the
+RangeError
+constructor.
+RangeError.prototype.name
+Represents the name for the type of error. For
+RangeError.prototype.name
+, the initial value is
+"RangeError"
+.
+Instance methods
+Inherits instance methods from its parent
+Error
+.
+Examples
+Using RangeError (for numeric values)
+js
+function check(n) {
+  if (!(n >= -500 && n <= 500)) {
+    throw new RangeError("The argument must be between -500 and 500.");
+  }
+}
+
+try {
+  check(2000);
+} catch (error) {
+  if (error instanceof RangeError) {
+    // Handle the error
+  }
+}
+Using RangeError (for non-numeric values)
+js
+function check(value) {
+  if (!["apple", "banana", "carrot"].includes(value)) {
+    throw new RangeError(
+      'The argument must be an "apple", "banana", or "carrot".',
+    );
+  }
+}
+
+try {
+  check("cabbage");
+} catch (error) {
+  if (error instanceof RangeError) {
+    // Handle the error
+  }
+}
+Specifications
+Specification
+ECMAScriptÂ® 2027 LanguageÂ Specification
+# sec-native-error-types-used-in-this-standard-rangeerror
+Browser compatibility
+See also
+Error
+Array
+Number.prototype.toExponential()
+Number.prototype.toFixed()
+Number.prototype.toPrecision()
+String.prototype.normalize()
+Help improve MDN
+Learn how to contribute
+This page was last modified on
+Jul 10, 2025
+by
+MDN contributors
+.
+View this page on GitHub
+â¢
+Report a problem with this content

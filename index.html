@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Guia do ecossistema JavaScript</title>
+    <meta name="description" content="Página inicial do guia de JavaScript, TypeScript e Node.js." />
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body class="home-page">
+    <main class="welcome">
+      <p class="eyebrow">Documentação para estudo</p>
+      <h1>Bem-Vindo ao guia do ecossistema JavaScript</h1>
+      <button class="theme-toggle home-theme-toggle" type="button" id="theme-toggle" aria-label="Ativar tema escuro">
+        Tema escuro
+      </button>
+      <p class="welcome-text">
+        Escolha um módulo independente, com teoria, exemplos explicados linha por linha e referências práticas.
+      </p>
+      <div class="module-links">
+        <a class="module-link" href="javascript/javascript-iniciante.html">
+          <strong>JavaScript</strong>
+          <span>Trilha em três níveis: iniciante, intermediário e avançado.</span>
+        </a>
+        <a class="module-link" href="typescript/typescript-iniciante.html">
+          <strong>TypeScript</strong>
+          <span>Trilha em três níveis: fundamentos, modelagem de negócio e engenharia de tipos.</span>
+        </a>
+        <a class="module-link" href="nodejs/nodejs-iniciante.html">
+          <strong>Node.js</strong>
+          <span>Runtime, File System (fs), servidores HTTP nativos, Streams e variáveis de ambiente.</span>
+        </a>
+      </div>
+      <p class="welcome-note">Você pode retornar a esta página pelo link de início em cada módulo.</p>
+    </main>
+    <script>
+      const temaSalvo = localStorage.getItem("javascript-docs-theme");
+      const temaInicial =
+        temaSalvo ||
+        (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      const botaoTema = document.querySelector("#theme-toggle");
+
+      function atualizarTema(tema) {
+        document.documentElement.dataset.theme = tema;
+        const escuro = tema === "dark";
+        botaoTema.textContent = escuro ? "Tema claro" : "Tema escuro";
+        botaoTema.setAttribute("aria-label", escuro ? "Ativar tema claro" : "Ativar tema escuro");
+      }
+
+      atualizarTema(temaInicial);
+      botaoTema.addEventListener("click", () => {
+        const novoTema = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+        localStorage.setItem("javascript-docs-theme", novoTema);
+        atualizarTema(novoTema);
+      });
+    </script>
+  </body>
+</html>

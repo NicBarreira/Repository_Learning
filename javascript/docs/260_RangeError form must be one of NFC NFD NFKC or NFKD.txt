@@ -1,0 +1,55 @@
+URL: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Form_must_be_one_of
+TITULO: RangeError: form must be one of 'NFC', 'NFD', 'NFKC', or 'NFKD'
+
+RangeError: form must be one of 'NFC', 'NFD', 'NFKC', or 'NFKD'
+The JavaScript exception "form must be one of 'NFC', 'NFD', 'NFKC', or 'NFKD'" occurs when an unrecognized string is passed to the
+String.prototype.normalize()
+method.
+In this article
+Message
+Error type
+What went wrong?
+Examples
+See also
+Message
+RangeError: The normalization form should be one of NFC, NFD, NFKC, NFKD. (V8-based)
+RangeError: form must be one of 'NFC', 'NFD', 'NFKC', or 'NFKD' (Firefox)
+RangeError: argument does not match any normalization form (Safari)
+Error type
+RangeError
+What went wrong?
+The
+String.prototype.normalize()
+method only accepts the following four values as its
+form
+argument:
+"NFC"
+,
+"NFD"
+,
+"NFKC"
+, or
+"NFKD"
+. If you pass any other value, an error will be thrown. Read the reference of
+normalize()
+to learn about different normalization forms.
+Examples
+Invalid cases
+js
+"foo".normalize("nfc"); // RangeError
+"foo".normalize(" NFC "); // RangeError
+Valid cases
+js
+"foo".normalize("NFC"); // 'foo'
+See also
+String.prototype.normalize()
+Help improve MDN
+Learn how to contribute
+This page was last modified on
+Jul 8, 2025
+by
+MDN contributors
+.
+View this page on GitHub
+â¢
+Report a problem with this content

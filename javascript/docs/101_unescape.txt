@@ -1,0 +1,110 @@
+URL: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/unescape
+TITULO: unescape()
+
+unescape()
+Deprecated
+Avoid using this feature in new projects.
+TC39 included the
+escape()
+and
+unescape()
+methods in Annex B of the ECMAScript specification, which covers JavaScript features with "one or more undesirable characteristics and in the absence of legacy usage would be removed."
+This feature may be a candidate for removal from web standards or browsers.
+See full compatibility
+Learn more
+Note:
+unescape()
+is a non-standard function implemented by browsers and was only standardized for cross-engine compatibility. It is not required to be implemented by all JavaScript engines and may not work everywhere. Use
+decodeURIComponent()
+or
+decodeURI()
+if possible.
+The
+unescape()
+function computes a new string in which hexadecimal escape sequences are replaced with the characters that they represent. The escape sequences might be introduced by a function like
+escape()
+.
+In this article
+Syntax
+Description
+Examples
+Specifications
+Browser compatibility
+See also
+Syntax
+js
+unescape(str)
+Parameters
+str
+A string to be decoded.
+Return value
+A new string in which certain characters have been unescaped.
+Description
+unescape()
+is a function property of the global object.
+The
+unescape()
+function replaces any escape sequence with the character that it represents. Specifically, it replaces any escape sequence of the form
+%XX
+or
+%uXXXX
+(where
+X
+represents one hexadecimal digit) with the character that has the hexadecimal value
+XX
+/
+XXXX
+. If the escape sequence is not a valid escape sequence (for example, if
+%
+is followed by one or no hex digit), it is left as-is.
+Note:
+This function was used mostly for
+percent-encoding
+and is partly based on the escape format in
+RFC 1738
+. The
+unescape()
+function does
+not
+evaluate
+escape sequences
+in string literals. You can replace
+\xXX
+with
+%XX
+and
+\uXXXX
+with
+%uXXXX
+to get a string that can be handled by
+unescape()
+.
+Examples
+Using unescape()
+js
+unescape("abc123"); // "abc123"
+unescape("%E4%F6%FC"); // "Ã¤Ã¶Ã¼"
+unescape("%u0107"); // "Ä"
+Specifications
+Specification
+ECMAScriptÂ® 2027 LanguageÂ Specification
+# sec-unescape-string
+Browser compatibility
+See also
+Polyfill of
+unescape
+in
+core-js
+decodeURI
+decodeURIComponent
+escape
+Help improve MDN
+Learn how to contribute
+This page was last modified on
+Aug 21, 2026
+by
+MDN contributors
+.
+View this page on GitHub
+â¢
+Report a problem with this content

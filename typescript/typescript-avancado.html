@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TypeScript — Avançado</title>
+    <link rel="stylesheet" href="../assets/styles.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="brand-box">
+          <p class="eyebrow">Módulo 2 · Nível 3</p>
+          <h1>TypeScript</h1>
+          <a class="back-link" href="../index.html">← Voltar à página inicial</a>
+          <button class="theme-toggle" type="button" id="theme-toggle" aria-label="Ativar tema escuro">Tema escuro</button>
+        </div>
+        <nav class="nav" aria-label="Índice do TypeScript avançado">
+          <h2>Trilha TypeScript</h2>
+          <ul>
+            <li><a href="typescript-iniciante.html">Iniciante</a></li>
+            <li><a href="typescript-intermediario.html">Intermediário</a></li>
+            <li><a href="typescript-avancado.html">Avançado</a></li>
+          </ul>
+          <details class="nav-dropdown">
+            <summary>Conteúdos do avançado</summary>
+            <ul>
+              <li><a href="#visao">Visão geral</a></li>
+              <li><a href="#utility">Utility Types</a></li>
+              <li><a href="#narrowing">Type Narrowing</a></li>
+              <li><a href="#conditional">Conditional e infer</a></li>
+              <li><a href="#zod">Runtime e Zod</a></li>
+            </ul>
+          </details>
+        </nav>
+      </aside>
+      <main class="content">
+        <header class="hero">
+          <p class="eyebrow">Trilha TypeScript</p>
+          <h2>Nível Avançado: Engenharia de Tipos e Infraestrutura</h2>
+          <p>Utility Types, narrowing, conditional types, tipos mapeados e validação de runtime para bibliotecas e serviços rigorosos.</p>
+        </header>
+
+        <section id="visao" class="topic">
+          <h3>O que caracteriza o nível avançado?</h3>
+          <p>O TypeScript atua no compile-time, mas dados de requisições continuam podendo estar errados no runtime. Engenharia de tipos combina precisão estática, APIs expressivas e validação real na entrada do sistema.</p>
+        </section>
+
+        <section id="utility" class="topic">
+          <h3>1. Utility Types nativos</h3>
+          <p>Utility Types transformam modelos existentes sem duplicar contratos. Eles são úteis para DTOs de criação, atualização, respostas públicas e mapas.</p>
+          <div class="code-block"><pre><code>interface UsuarioCompleto {
+  id: number;
+  nome: string;
+  email: string;
+  senhaHash: string;
+}
+
+type UsuarioAtualizacao = Partial&lt;UsuarioCompleto&gt;;
+type UsuarioPublico = Omit&lt;UsuarioCompleto, "senhaHash"&gt;;
+type UsuarioIdentidade = Pick&lt;UsuarioCompleto, "id" | "nome"&gt;;
+type UsuariosPorId = Record&lt;string, UsuarioPublico&gt;;</code></pre></div>
+          <ul>
+            <li><code>Partial&lt;T&gt;</code> torna propriedades opcionais.</li>
+            <li><code>Pick&lt;T, K&gt;</code> seleciona campos.</li>
+            <li><code>Omit&lt;T, K&gt;</code> remove campos sensíveis.</li>
+            <li><code>Record&lt;K, T&gt;</code> cria um mapa tipado.</li>
+          </ul>
+        </section>
+
+        <section id="narrowing" class="topic">
+          <h3>2. Type Narrowing e Type Guards</h3>
+          <p>Narrowing afunila um tipo amplo durante a execução. Os operadores nativos incluem <code>typeof</code>, <code>instanceof</code> e <code>in</code>. Um custom type guard usa a forma <code>valor is Tipo</code>.</p>
+          <div class="code-block"><pre><code>function ehString(valor: unknown): valor is string {
+  return typeof valor === "string";
+}
+
+function formatar(valor: unknown): string {
+  if (ehString(valor)) {
+    return valor.toUpperCase();
+  }
+
+  if (typeof valor === "number") {
+    return valor.toFixed(2);
+  }
+
+  return "Valor não suportado";
+}</code></pre></div>
+          <p>A função de guarda executa uma verificação real e comunica o resultado ao compilador. Ela não deve apenas fingir que um valor é seguro.</p>
+        </section>
+
+        <section id="conditional" class="topic">
+          <h3>3. Conditional Types e <code>infer</code></h3>
+          <p>Conditional Types tomam decisões estáticas no formato <code>T extends U ? X : Y</code>. <code>infer</code> captura uma parte de uma estrutura, como o retorno de uma função ou o valor de uma Promise.</p>
+          <div class="code-block"><pre><code>type Retorno&lt;T&gt; =
+  T extends (...args: never[]) =&gt; infer R ? R : never;
+
+type ValorDaPromise&lt;T&gt; =
+  T extends Promise&lt;infer V&gt; ? V : T;
+
+type Resposta&lt;T&gt; =
+  T extends string
+    ? { tipo: "texto"; valor: T }
+    : { tipo: "outro"; valor: T };</code></pre></div>
+          <p>Essas ferramentas permitem extrair metadados de APIs genéricas, compor contratos e criar utilitários reutilizáveis. Use tipos auxiliares nomeados para não transformar cada assinatura em uma expressão impossível de manter.</p>
+        </section>
+
+        <section id="zod" class="topic">
+          <h3>4. Validação em runtime: TypeScript com Zod</h3>
+          <p>Os tipos desaparecem quando o JavaScript roda. Dados de <code>req.body</code>, arquivos e APIs precisam ser validados no runtime. O Zod permite declarar um schema executável e inferir o tipo correspondente.</p>
+          <div class="code-block"><pre><code>import { z } from "zod";
+
+const usuarioSchema = z.object({
+  nome: z.string().min(3),
+  idade: z.number().int().positive()
+});
+
+type UsuarioInput = z.infer&lt;typeof usuarioSchema&gt;;
+
+function validarUsuario(valor: unknown): UsuarioInput {
+  return usuarioSchema.parse(valor);
+}</code></pre></div>
+          <p><code>parse</code> lança erro quando os dados são inválidos; <code>safeParse</code> devolve um resultado que pode ser tratado sem exceção. A validação deve ocorrer antes de dados externos entrarem nas regras de negócio.</p>
+          <div class="note"><strong>Regra de segurança:</strong> TypeScript não substitui autenticação, autorização, sanitização, logs ou validação financeira. Tipos e runtime cumprem funções diferentes.</div>
+        </section>
+      </main>
+    </div>
+    <script>
+      const temaSalvo = localStorage.getItem("javascript-docs-theme");
+      const temaInicial = temaSalvo || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      const botaoTema = document.querySelector("#theme-toggle");
+      function atualizarTema(tema) {
+        document.documentElement.dataset.theme = tema;
+        const escuro = tema === "dark";
+        botaoTema.textContent = escuro ? "Tema claro" : "Tema escuro";
+        botaoTema.setAttribute("aria-label", escuro ? "Ativar tema claro" : "Ativar tema escuro");
+      }
+      atualizarTema(temaInicial);
+      botaoTema.addEventListener("click", () => {
+        const novoTema = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+        localStorage.setItem("javascript-docs-theme", novoTema);
+        atualizarTema(novoTema);
+      });
+      function explicarLinha(linha) {
+        const texto = linha.trim();
+        if (!texto) return "Linha em branco separa etapas.";
+        if (texto.startsWith("//")) return "Comentário que explica o contrato.";
+        if (texto.startsWith("import ")) return "Importa uma biblioteca ou declaração.";
+        if (texto.startsWith("type ")) return "Declara um tipo transformado ou alias.";
+        if (texto.startsWith("interface ")) return "Declara um contrato de objeto.";
+        if (texto.startsWith("function ")) return "Declara uma função com validação ou transformação.";
+        if (texto.startsWith("const ")) return "Declara um schema, tipo inferido ou valor constante.";
+        if (texto.includes("extends")) return "Compara tipos e escolhe uma transformação condicional.";
+        if (texto.includes("infer")) return "Captura uma parte do tipo durante a análise.";
+        if (texto.includes("z.")) return "Define uma regra de validação executável no runtime.";
+        if (texto.includes("return ")) return "Devolve o resultado da transformação.";
+        if (texto.includes("if ")) return "Verifica uma condição.";
+        return "Executa ou descreve uma instrução TypeScript avançada.";
+      }
+      document.querySelectorAll("pre > code").forEach((codigo) => {
+        const painel = document.createElement("div");
+        painel.className = "code-explanation";
+        const titulo = document.createElement("h5");
+        titulo.textContent = "Leitura linha por linha";
+        painel.appendChild(titulo);
+        const lista = document.createElement("ol");
+        codigo.textContent.split("\n").forEach((linha) => {
+          const item = document.createElement("li");
+          const original = document.createElement("code");
+          original.textContent = linha || " ";
+          const explicacao = document.createElement("span");
+          explicacao.textContent = explicarLinha(linha);
+          item.append(original, explicacao);
+          lista.appendChild(item);
+        });
+        painel.appendChild(lista);
+        const resumo = document.createElement("p");
+        resumo.innerHTML = "<strong>O que o código completo faz:</strong> demonstra uma técnica avançada para construir contratos TypeScript seguros.";
+        painel.appendChild(resumo);
+        codigo.closest("pre").after(painel);
+      });
+    </script>
+  </body>
+</html>
